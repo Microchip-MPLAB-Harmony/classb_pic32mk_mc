@@ -1,6 +1,23 @@
-# coding: utf-8
-"""*****************************************************************************
-* Copyright (C) 2024 Microchip Technology Inc. and its subsidiaries.
+/*******************************************************************************
+  Class B Library ${REL_VER} Release
+
+  Company:
+    Microchip Technology Inc.
+
+  File Name:
+    classb_sram_algorithm.h
+
+  Summary:
+    Header file for internal routines used in SRAM self-tests.
+
+  Description:
+    This file provides function prototypes, macros and data types for the
+    internal routines used in SRAM self-tests SRAM tests.
+
+*******************************************************************************/
+
+/*******************************************************************************
+* Copyright (C) ${REL_YEAR} Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -20,14 +37,4 @@
 * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
-*****************************************************************************"""
-supportedDevices = ["PIC32MK"]
-notSupportedVariants = []
-
-def loadModule():
-    print("Load Module: Harmony Class B Library")
-    device_name = Variables.get("__PROCESSOR")
-    for x in supportedDevices:
-        if x in device_name:
-            if device_name not in notSupportedVariants:
-                classBComponent = Module.CreateComponent("lib_classb_pic32mk_mc", "Class B Library PIC32MK", "/ClassB/", "config/classb_pic32mk_mc.py")
+*******************************************************************************/
