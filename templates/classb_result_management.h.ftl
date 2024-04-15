@@ -38,3 +38,45 @@
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
+
+#ifndef CLASSB_RESULT_MGMT_H
+#define CLASSB_RESULT_MGMT_H
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    extern "C" {
+
+#endif
+// DOM-IGNORE-END
+
+/*----------------------------------------------------------------------------
+ *     Include files
+ *----------------------------------------------------------------------------*/
+#include "classb/classb_common.h"
+
+/*----------------------------------------------------------------------------
+ *     Constants
+ *----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------
+ *     Data types
+ *----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------
+ *     Functions
+ *----------------------------------------------------------------------------*/
+void CLASSB_ClearTestResults(CLASSB_TEST_TYPE test_type);
+CLASSB_TEST_STATUS CLASSB_GetTestResult(CLASSB_TEST_TYPE test_type,
+    CLASSB_TEST_ID test_id);
+// Internal purpose only,Not recommended for user control
+void sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE test_type,
+    CLASSB_TEST_ID test_id, CLASSB_TEST_STATUS value);
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    }
+
+#endif
+// DOM-IGNORE-END
+#endif // CLASSB_RESULT_MGMT_H
