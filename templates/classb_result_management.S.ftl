@@ -5,7 +5,7 @@
     Microchip Technology Inc.
 
   File Name:
-    classb_result_management_xc32.S
+    classb_result_management.S
 
   Summary:
     Assembly functions to clear, modify and read test results.

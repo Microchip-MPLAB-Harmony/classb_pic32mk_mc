@@ -412,7 +412,7 @@ def instantiateComponent(classBComponent):
     
     # Source File for result handling
     classBSourceResultMgmt = classBComponent.createFileSymbol("CLASSB_SOURCE_RESULT_MGMT_S", None)
-    classBSourceResultMgmt.setSourcePath("/templates/classb_result_management_xc32.S.ftl")
+    classBSourceResultMgmt.setSourcePath("/templates/classb_result_management.S.ftl")
     classBSourceResultMgmt.setOutputName("classb_result_management.S")
     classBSourceResultMgmt.setDestPath("/classb")
     classBSourceResultMgmt.setProjectPath("config/" + configName + "/classb")
