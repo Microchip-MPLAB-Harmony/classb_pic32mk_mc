@@ -38,3 +38,43 @@ CONSEQUENTIAL DAMAGES, LOST  PROFITS  OR  LOST  DATA,  COST  OF  PROCUREMENT  OF
 SUBSTITUTE  GOODS,  TECHNOLOGY,  SERVICES,  OR  ANY  CLAIMS  BY  THIRD   PARTIES
 (INCLUDING BUT NOT LIMITED TO ANY DEFENSE  THEREOF),  OR  OTHER  SIMILAR  COSTS.
 *******************************************************************************/
+
+#ifndef CLASSB_FLASH_TEST_H
+#define CLASSB_FLASH_TEST_H
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    extern "C" {
+
+#endif
+// DOM-IGNORE-END
+
+/*----------------------------------------------------------------------------
+ *     Include files
+ *----------------------------------------------------------------------------*/
+#include "classb/classb_common.h"
+
+/*----------------------------------------------------------------------------
+ *     Constants
+ *----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------
+ *     Data types
+ *----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------
+ *     Functions
+ *----------------------------------------------------------------------------*/
+uint32_t CLASSB_FlashCRCGenerate(uint32_t start_addr, uint32_t size);
+CLASSB_TEST_STATUS CLASSB_FlashCRCTest(uint32_t start_addr,
+    uint32_t test_size, uint32_t crc_value, bool running_context);
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    }
+
+#endif
+// DOM-IGNORE-END
+#endif // CLASSB_FLASH_TEST_H
