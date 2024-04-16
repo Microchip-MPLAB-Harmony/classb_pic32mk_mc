@@ -37,3 +37,69 @@
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
+
+/*----------------------------------------------------------------------------
+ *     include files
+ *----------------------------------------------------------------------------*/
+#include "classb/classb_cpu_reg_test.h"
+#include "classb/classb_reg_common.h"
+#include "definitions.h"
+// *****************************************************************************
+// *****************************************************************************
+// Section: Global Data Definitions
+// *****************************************************************************
+// *****************************************************************************
+
+CLASSB_TEST_STATUS CLASSB_CPU_RegistersTest(bool running_context)
+{
+    int ret;
+    if (running_context == true)
+    {
+        sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_RST, CLASSB_TEST_CPU,
+            CLASSB_TEST_INPROGRESS);
+    }
+    else
+    {
+        sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_SST, CLASSB_TEST_CPU,
+            CLASSB_TEST_INPROGRESS);
+    }
+    
+    ret = sCLASSB_CPURegistersTest();
+    if (ret == CLASSB_TEST_PASSED)
+    {
+        if (running_context == true)
+        {
+            sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_RST, CLASSB_TEST_CPU,
+                    CLASSB_TEST_PASSED);
+        }
+        else
+        {
+            sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_SST, CLASSB_TEST_CPU,
+                    CLASSB_TEST_PASSED);
+        }
+    }
+    else
+    {
+        if (running_context == true)
+        {
+            sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_RST, CLASSB_TEST_CPU,
+                    CLASSB_TEST_FAILED);
+        }
+        else
+        {
+            sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_SST, CLASSB_TEST_CPU,
+                    CLASSB_TEST_FAILED);
+        }
+        /* Remain in infinite loop if a register test is failed */
+        while(true){
+            ;
+        }    
+        
+    }
+    return (CLASSB_TEST_STATUS)ret;
+}
+
+
+/*******************************************************************************
+ End of File
+ */
