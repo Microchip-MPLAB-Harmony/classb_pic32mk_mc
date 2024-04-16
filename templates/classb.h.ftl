@@ -38,3 +38,49 @@
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
+
+#ifndef CLASSB_H
+#define CLASSB_H
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    extern "C" {
+
+#endif
+// DOM-IGNORE-END
+
+/*----------------------------------------------------------------------------
+ *     Include files
+ *----------------------------------------------------------------------------*/
+#include "classb/classb_common.h"
+#include "classb/classb_result_management.h"
+#include "classb/classb_cpu_reg_test.h"
+#include "classb/classb_fpu_reg_test.h"
+#include "classb/classb_sram_test.h"
+#include "classb/classb_sram_algorithm.h"
+#include "classb/classb_flash_test.h"
+#include "classb/classb_interrupt_test.h"
+#include "classb/classb_clock_test.h"
+#include "classb/classb_io_pin_test.h"
+
+/*----------------------------------------------------------------------------
+ *     Constants
+ *----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------
+ *     Data types
+ *----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------
+ *     Functions
+ *----------------------------------------------------------------------------*/
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    }
+
+#endif
+// DOM-IGNORE-END
+#endif // CLASSB_H
