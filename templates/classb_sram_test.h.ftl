@@ -38,3 +38,70 @@ CONSEQUENTIAL DAMAGES, LOST  PROFITS  OR  LOST  DATA,  COST  OF  PROCUREMENT  OF
 SUBSTITUTE  GOODS,  TECHNOLOGY,  SERVICES,  OR  ANY  CLAIMS  BY  THIRD   PARTIES
 (INCLUDING BUT NOT LIMITED TO ANY DEFENSE  THEREOF),  OR  OTHER  SIMILAR  COSTS.
 *******************************************************************************/
+
+#ifndef CLASSB_SRAM_TEST_H
+#define CLASSB_SRAM_TEST_H
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    extern "C" {
+
+#endif
+// DOM-IGNORE-END
+
+/*----------------------------------------------------------------------------
+ *     Include files
+ *----------------------------------------------------------------------------*/
+#include "classb_common.h"
+
+/*----------------------------------------------------------------------------
+ *     Constants
+ *----------------------------------------------------------------------------*/
+#define CLASSB_SRAM_TEST_BUFFER_SIZE        (512U) // Do not modify
+#define CLASSB_SRAM_APP_AREA_START          (0x${CLASSB_SRAM_APP_START}U) // Do not modify
+
+/*----------------------------------------------------------------------------
+ *     Data types
+ *----------------------------------------------------------------------------*/
+// *****************************************************************************
+/* Class B library SRAM test algorithm selection
+
+  Summary:
+    Select which of the March algorithms to run.
+
+  Description:
+    Select which of the March algorithms to run.
+
+  Remarks:
+    None.
+*/
+typedef enum classb_sram_march_algo
+{
+    CLASSB_SRAM_MARCH_C       = 0,
+    CLASSB_SRAM_MARCH_C_MINUS = 1,
+    CLASSB_SRAM_MARCH_B       = 2
+} CLASSB_SRAM_MARCH_ALGO;
+
+/*----------------------------------------------------------------------------
+ *     Functions
+ *----------------------------------------------------------------------------*/
+
+CLASSB_TEST_STATUS __attribute__((optimize("-O0"))) CLASSB_SRAM_MarchTestInit(uint32_t * start_addr,
+    uint32_t test_size_bytes, CLASSB_SRAM_MARCH_ALGO march_algo, bool running_context);
+CLASSB_TEST_STATUS __attribute__((optimize("-O0"))) sCLASSB_SRAM_MarchTest(uint32_t * start_addr,
+    uint32_t test_size_bytes, CLASSB_SRAM_MARCH_ALGO march_algo);
+
+/* RAM march algorithms
+ * Optimization is set to zero, else the compiler optimizes these function away.
+ */
+
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    }
+
+#endif
+// DOM-IGNORE-END
+#endif // CLASSB_SRAM_TEST_H

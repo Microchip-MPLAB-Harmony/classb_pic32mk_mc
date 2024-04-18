@@ -38,3 +38,57 @@
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
+
+#ifndef CLASSB_SRAM_ALGO_H
+#define CLASSB_SRAM_ALGO_H
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    extern "C" {
+
+#endif
+// DOM-IGNORE-END
+
+/*----------------------------------------------------------------------------
+ *     Include files
+ *----------------------------------------------------------------------------*/
+#include "classb/classb_common.h"
+
+/*----------------------------------------------------------------------------
+ *     Constants
+ *----------------------------------------------------------------------------*/
+#define CLASSB_SRAM_ALL_32BITS_HIGH         (0xFFFFFFFFU)
+#define CLASSB_SRAM_MARCH_BIT_WIDTH         (32U)
+#define CLASSB_SRAM_TEST_BUFFER_SIZE        (512U) // Do not modify
+
+/*----------------------------------------------------------------------------
+ *     Data types
+ *----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------
+ *     Functions
+ *----------------------------------------------------------------------------*/
+
+/* RAM march algorithms
+ * Optimization is set to zero, else the compiler optimizes these function away.
+ */
+bool OPTIMIZE_O0 CLASSB_RAMMarchC(uint32_t * start_addr, uint32_t test_size_bytes);
+bool OPTIMIZE_O0 CLASSB_RAMMarchCMinus(uint32_t * start_addr, uint32_t test_size_bytes);
+bool OPTIMIZE_O0 CLASSB_RAMMarchB(uint32_t * start_addr, uint32_t test_size_bytes);
+
+bool OPTIMIZE_O0 sCLASSB_ReadZeroWriteOne(uint32_t * ptr);
+bool OPTIMIZE_O0 sCLASSB_ReadZeroWriteOneWriteZero(uint32_t * ptr);
+bool OPTIMIZE_O0 sCLASSB_ReadOneWriteZero(uint32_t * ptr);
+bool OPTIMIZE_O0 sCLASSB_ReadOneWriteZeroWriteOne(uint32_t * ptr);
+bool OPTIMIZE_O0 sCLASSB_WriteOneWriteZero(uint32_t * ptr);
+bool OPTIMIZE_O0 sCLASSB_ReadZero(uint32_t * ptr );
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    }
+
+#endif
+// DOM-IGNORE-END
+#endif // CLASSB_SRAM_ALGO_H
