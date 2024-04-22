@@ -45,16 +45,13 @@ def setClassB_SymbolVisibility(MySymbol, event):
 def parse_io_port_pin():
     global port_pin_list, pioSymChannel , port_dict
     currentPath = os.path.dirname(os.path.abspath(inspect.stack()[0][1]))
-    # print(currentPath)
     processor = Variables.get("__PROCESSOR")
     print("Loading CLASS B Pin Parser for " + processor)
 
     deviceXmlPath = os.path.join(currentPath, "../plugin/pin_xml/components/" + processor + ".xml")
-    # print("deviceXmlPath : %s" %deviceXmlPath)
     deviceXmlTree = ET.parse(deviceXmlPath)
     deviceXmlRoot = deviceXmlTree.getroot()
     pinoutXmlName = deviceXmlRoot.get("pins")
-    # print("pinoutXmlName : %s" %pinoutXmlName)
 
     pinoutXmlPath = os.path.join(currentPath, "../plugin/pin_xml/pins/" + pinoutXmlName + ".xml")
     pinoutXmlPath = os.path.normpath(pinoutXmlPath)
@@ -64,25 +61,15 @@ def parse_io_port_pin():
     pins_element = root.find('pins')
     # Iterate over all <pin> elements inside <pins>
     for pin in pins_element.findall('pin'):
-        # Print the name of each pin
-        #print("Pin name:", pin.attrib['name'])
         pin_name = pin.attrib['name']
         if pin_name.startswith("R") and pin_name[2:].isnumeric():
             port_pin_list.append(pin_name)
             if  pin_name[1] in pioSymChannel:
                 port_dict[pin_name[1]].append(int(pin_name[2:]))
                 port_dict[pin_name[1]].sort()
-                #for item in port_dict:
-                #    if pin_name[1] in item:
-                #        item[pin_name[1]].append(int(pin_name[2:]))
-                #        item[pin_name[1]].sort()
-                pass
             else:
                 pioSymChannel.append(pin_name[1])
                 pioSymChannel.sort()
-                #port_item = {}
-                #port_item[pin_name[1]] = [int(pin_name[2:])]
-                #port_dict.append(port_item)
                 port_dict[pin_name[1]] = [int(pin_name[2:])]
 
         
@@ -106,12 +93,11 @@ def instantiateComponent(classBComponent):
     
     #Device params
     classBFlashNode = ATDF.getNode("/avr-tools-device-file/devices/device/address-spaces/address-space/memory-segment@[name=\"code\"]")
-    print(classBFlashNode)
     if classBFlashNode != None:
         #Flash size
-        classB_FLASH_SIZE = classBComponent.createIntegerSymbol("CLASSB_FLASH_SIZE", None)
+        classB_FLASH_SIZE = classBComponent.createHexSymbol("CLASSB_FLASH_SIZE", None)
         classB_FLASH_SIZE.setVisible(False)
-        classB_FLASH_SIZE.setDefaultValue( int(classBFlashNode.getAttribute("size"), 16) + (0x00000000))
+        classB_FLASH_SIZE.setDefaultValue( int(classBFlashNode.getAttribute("size"), 16))
         
     classBSRAMNode = ATDF.getNode("/avr-tools-device-file/devices/device/address-spaces/address-space/memory-segment@[name=\"kseg0_data_mem\"]")
     if classBSRAMNode != None:
@@ -119,7 +105,6 @@ def instantiateComponent(classBComponent):
         classB_SRAM_SIZE = classBComponent.createIntegerSymbol("CLASSB_SRAM_SIZE", None)
         classB_SRAM_SIZE.setVisible(False)
         classB_SRAM_SIZE.setDefaultValue(int(classBSRAMNode.getAttribute("size"), 16))
-        # classB_SRAM_SIZE.setDefaultValue(int(classBSRAMNode.getAttribute("size")))
         
         #SRAM address
         classB_SRAM_ADDR = classBComponent.createHexSymbol("CLASSB_SRAM_START_ADDRESS", None)
@@ -145,7 +130,7 @@ def instantiateComponent(classBComponent):
     classB_UseCPUTest.setHelp("Harmony_ClassB_Library_for_PIC32MK_MC")
 
     # Insert FPU Register Test
-    classB_UseCPUTest = classBComponent.createBooleanSymbol("CLASSB_CPU_FPU_TEST_OPT", classBMenu)
+    classB_UseCPUTest = classBComponent.createBooleanSymbol("CLASSB_FPU_TEST_OPT", classBMenu)
     classB_UseCPUTest.setLabel("Test FPU Registers?")
     classB_UseCPUTest.setVisible(True)
     classB_UseCPUTest.setDefaultValue(False)
@@ -176,7 +161,10 @@ def instantiateComponent(classBComponent):
     # Size of the area to be tested
     classb_Ram_marchSize = classBComponent.createIntegerSymbol("CLASSB_SRAM_MARCH_SIZE", classB_UseSRAMTest)
     classb_Ram_marchSize.setLabel("Size of the tested area (bytes)")
-    classb_Ram_marchSize.setDefaultValue(classB_SRAM_SIZE.getValue() / 128)
+    if classB_SRAM_SIZE.getValue() <= 32768:
+        classb_Ram_marchSize.setDefaultValue(classB_SRAM_SIZE.getValue() / 64)
+    else:
+        classb_Ram_marchSize.setDefaultValue(classB_SRAM_SIZE.getValue() / 128)
     classb_Ram_marchSize.setVisible(False)
     classb_Ram_marchSize.setMin(0)
     classb_Ram_marchSize.setHelp("Harmony_ClassB_Library_for_PIC32MK_MC")
@@ -194,11 +182,6 @@ def instantiateComponent(classBComponent):
     classB_FlashCRC_Option.setDescription("Enable this option if the CRC-32 checksum of the application image is stored at a specific address in the Flash")
     
     # Address at which CRC-32 of the application image is stored
-    # print("Flash CRC location" )
-    # print("classB_FLASH_SIZE.getValue() : 0x%x" % (classB_FLASH_SIZE.getValue()) )
-    # print("classB_FLASH_SIZE.getValue() - 4 : 0x%x" % (classB_FLASH_SIZE.getValue() - 4))
-    # print("0x%x" % 0xFE000 )
-    # 7FFFC
     classB_CRC_address = classBComponent.createHexSymbol("CLASSB_FLASHCRC_ADDR", classB_FlashCRC_Option)
     classB_CRC_address.setLabel("Flash CRC location")
     # classB_CRC_address.setDefaultValue(0xFE000)
@@ -207,7 +190,7 @@ def instantiateComponent(classBComponent):
     classB_CRC_address.setMax(classB_FLASH_SIZE.getValue() - 4)
     classB_CRC_address.setVisible(False)
     classB_CRC_address.setHelp("Harmony_ClassB_Library_for_PIC32MK_MC")
-    #This should be enabled based on the above configuration
+    # This should be enabled based on the above configuration
     classB_CRC_address.setDependencies(setClassB_SymbolVisibility, ["CLASSB_FLASH_CRC_CONF"])
     
     # Insert Clock test
@@ -330,53 +313,57 @@ def instantiateComponent(classBComponent):
     PORT_PIN_LIST_CFG = []
     PORT_LIST = ""
     USE_PIN_MACRO = True
-    # GPIO_CHANNEL_TOTAL
+    # GPIO Total channel number
     gpioTotalChannels = classBComponent.createIntegerSymbol("GPIO_CHANNEL_TOTAL" , classBReadOnlyParams)
     gpioTotalChannels.setVisible(False)
     gpioTotalChannels.setDefaultValue(len(pioSymChannel))
-    # print("Created : GPIO_CHANNEL_TOTAL")
+
     # GPIO_CHANNEL_" + i + "_NAME
     for i in range(0, len(pioSymChannel)):
         gpioChannelName.append(i)
         gpioChannelCnt.append(i)
-        if USE_PIN_MACRO:
-            PORT_LIST += "CLASSB_GPIO_PORT_" + str( pioSymChannel[i] ) + ", "
-        else:
-            PORT_LIST +=  str( i ) + "U, "
+        # GPIO Channel name
         gpioChannelName[i] = classBComponent.createStringSymbol("GPIO_CHANNEL_" + str( i ) + "_NAME" , classBReadOnlyParams)
         gpioChannelName[i].setVisible(False)
         gpioChannelName[i].setDefaultValue(pioSymChannel[i])
-        # print("Created : GPIO_CHANNEL_" + str( i ) + "_NAME" )
-        # GPIO_CHANNEL_0_PIN_CNT = len(port_dict[pioSymChannel[i]])
+        # GPIO Channel pin count
         gpioChannelCnt[i] = classBComponent.createIntegerSymbol("GPIO_CHANNEL_" + str( i ) + "_PIN_CNT" , classBReadOnlyParams)
         gpioChannelCnt[i].setVisible(False)
         gpioChannelCnt[i].setDefaultValue(len(port_dict[pioSymChannel[i]]))
-        # print("Created : GPIO_CHANNEL_" + str( i ) + "_PIN_CNT" )
+        # Constuct GPIO Port List
+        if USE_PIN_MACRO:
+            PORT_LIST += "CLASSB_GPIO_PORT_" + str( pioSymChannel[i] ) + ",\r\n    "
+        else:
+            PORT_LIST +=  str( i ) + "U, "
         gpioChannelPin = []
         PORT_PIN_LIST = ""
-
         for j in range(len(port_dict[pioSymChannel[i]])):
-            # "GPIO_CHANNEL_" + str( i ) + "_PIN_" + str( j )  = port_dict[pioSymChannel[i]][j]
             gpioChannelPin.append(i)
-            if USE_PIN_MACRO:
-                PORT_PIN_LIST += "CLASSB_GPIO_PIN_R" + str ( pioSymChannel[i] ) + str( port_dict[pioSymChannel[i]][j] ) + ", "
-            else:
-                PORT_PIN_LIST += str( port_dict[pioSymChannel[i]][j] ) + "U, "
+            # GPIO Channel Pin name
             gpioChannelPin[j] = classBComponent.createIntegerSymbol("GPIO_CHANNEL_" + str( i ) + "_PIN_" + str( j ) , classBReadOnlyParams)
             gpioChannelPin[j].setVisible(False)
             gpioChannelPin[j].setDefaultValue(port_dict[pioSymChannel[i]][j])
-            # print("Created : GPIO_CHANNEL_" + str( i ) + "_PIN_" + str( j ) )
-        
+            # Construct GPIO PORT Pin List
+            if USE_PIN_MACRO:
+                PORT_PIN_LIST += "CLASSB_GPIO_PIN_R" + str ( pioSymChannel[i] ) + str( port_dict[pioSymChannel[i]][j] ) + ",\r\n    "
+            else:
+                PORT_PIN_LIST += str( port_dict[pioSymChannel[i]][j] ) + "U, "
         PORT_PIN_LIST_CFG.append(i)
+        # GPIO PORT Pin List
         PORT_PIN_LIST_CFG[i] = classBComponent.createStringSymbol("GPIO_CHANNEL_" + str( i ) + "_PIN_LIST", classBReadOnlyParams)
         PORT_PIN_LIST_CFG[i].setVisible(False)
-        PORT_PIN_LIST_CFG[i].setDefaultValue(PORT_PIN_LIST[0:len(PORT_PIN_LIST)-2] )
-        # print("Created : GPIO_CHANNEL_" + str( i ) + "_PIN_LIST" )
-
+        if USE_PIN_MACRO:
+            PORT_PIN_LIST_CFG[i].setDefaultValue(PORT_PIN_LIST[0:len(PORT_PIN_LIST)-7] )
+        else:
+            PORT_PIN_LIST_CFG[i].setDefaultValue(PORT_PIN_LIST[0:len(PORT_PIN_LIST)-2] )
+    # Constuct GPIO Port List
     PORT_LIST_CFG = classBComponent.createStringSymbol("GPIO_CHANNEL_LIST" , classBReadOnlyParams)
     PORT_LIST_CFG.setVisible(False)
-    PORT_LIST_CFG.setDefaultValue(PORT_LIST[0:len(PORT_LIST)-2])
-    # print("Created : GPIO_CHANNEL_LIST" )
+    if USE_PIN_MACRO:
+        PORT_LIST_CFG.setDefaultValue(PORT_LIST[0:len(PORT_LIST)-7])
+    else:
+        PORT_LIST_CFG.setDefaultValue(PORT_LIST[0:len(PORT_LIST)-2])
+    
         
 ############################################################################
 #### Code Generation ####
@@ -450,6 +437,15 @@ def instantiateComponent(classBComponent):
     classBHeaderCpuTest = classBComponent.createFileSymbol("CLASSB_HEADER_CPU_TEST", None)
     classBHeaderCpuTest.setSourcePath("/templates/classb_cpu_reg_test.h.ftl")
     classBHeaderCpuTest.setOutputName("classb_cpu_reg_test.h")
+    classBHeaderCpuTest.setDestPath("/classb")
+    classBHeaderCpuTest.setProjectPath("config/" + configName +"/classb")
+    classBHeaderCpuTest.setType("HEADER")
+    classBHeaderCpuTest.setMarkup(True)
+
+    # Header File for CPU test common
+    classBHeaderCpuTest = classBComponent.createFileSymbol("CLASSB_HEADER_CPU_COMMON_TEST", None)
+    classBHeaderCpuTest.setSourcePath("/templates/classb_reg_common.h.ftl")
+    classBHeaderCpuTest.setOutputName("classb_reg_common.h")
     classBHeaderCpuTest.setDestPath("/classb")
     classBHeaderCpuTest.setProjectPath("config/" + configName +"/classb")
     classBHeaderCpuTest.setType("HEADER")
