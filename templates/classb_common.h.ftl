@@ -67,8 +67,13 @@ SUBSTITUTE  GOODS,  TECHNOLOGY,  SERVICES,  OR  ANY  CLAIMS  BY  THIRD   PARTIES
 #endif
 
 /*----------------------------------------------------------------------------
- *     Globals
+ *     Global Variables
  *----------------------------------------------------------------------------*/
+extern volatile uint8_t * ongoing_sst_id;
+extern volatile uint8_t * classb_test_in_progress;
+extern volatile uint8_t * wdt_test_in_progress;
+extern volatile uint8_t * interrupt_tests_status;
+extern volatile uint32_t * interrupt_count;
 
 /*----------------------------------------------------------------------------
  *     Data types
@@ -251,12 +256,6 @@ typedef struct classb_rst_result_bf
  *----------------------------------------------------------------------------*/
 /* Function called when a non-critical self-test fails */
 extern void CLASSB_SelfTest_FailSafe(CLASSB_TEST_ID test_id);
-extern volatile uint8_t * ongoing_sst_id;
-extern volatile uint8_t * classb_test_in_progress;
-extern volatile uint8_t * wdt_test_in_progress;
-extern volatile uint8_t * interrupt_tests_status;
-extern volatile uint32_t * interrupt_count;
-
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
