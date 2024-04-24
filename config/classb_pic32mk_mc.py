@@ -47,17 +47,14 @@ def parse_io_port_pin():
     currentPath = os.path.dirname(os.path.abspath(inspect.stack()[0][1]))
     processor = Variables.get("__PROCESSOR")
     print("Loading CLASS B Pin Parser for " + processor)
-
     deviceXmlPath = os.path.join(currentPath, "../plugin/pin_xml/components/" + processor + ".xml")
     deviceXmlTree = ET.parse(deviceXmlPath)
     deviceXmlRoot = deviceXmlTree.getroot()
     pinoutXmlName = deviceXmlRoot.get("pins")
-
     pinoutXmlPath = os.path.join(currentPath, "../plugin/pin_xml/pins/" + pinoutXmlName + ".xml")
     pinoutXmlPath = os.path.normpath(pinoutXmlPath)
     tree = ET.parse(pinoutXmlPath)
     root = tree.getroot()
-
     pins_element = root.find('pins')
     # Iterate over all <pin> elements inside <pins>
     for pin in pins_element.findall('pin'):
@@ -71,24 +68,18 @@ def parse_io_port_pin():
                 pioSymChannel.append(pin_name[1])
                 pioSymChannel.sort()
                 port_dict[pin_name[1]] = [int(pin_name[2:])]
-
-        
+  
 ################################################################################
 #### Component ####
 ################################################################################
 def instantiateComponent(classBComponent):
     global processor 
-    
     processor = Variables.get("__PROCESSOR")
     print("Instantiating CLASS B Component for %s..." % ( processor))
     parse_io_port_pin()
-    # print(str(port_dict))
-
     configName = Variables.get("__CONFIGURATION_NAME")
-
     classBMenu = classBComponent.createMenuSymbol("CLASSB_MENU", None)
     classBMenu.setLabel("Class B Startup Test Configuration")
-
     execfile(Module.getPath() +"/config/interface.py")
     
     #Device params
@@ -121,7 +112,6 @@ def instantiateComponent(classBComponent):
         classB_SRAM_RESERVE_SIZE.setVisible(False)
         classB_SRAM_RESERVE_SIZE.setDefaultValue(int("1024", 10))
         
-
     # Insert CPU test
     classB_UseCPUTest = classBComponent.createBooleanSymbol("CLASSB_CPU_TEST_OPT", classBMenu)
     classB_UseCPUTest.setLabel("Test CPU Registers?")
@@ -230,7 +220,6 @@ def instantiateComponent(classBComponent):
     classB_UseInterTest.setHelp("Harmony_ClassB_Library_for_PIC32MK_MC")
     classB_UseInterTest.setDefaultValue(False)
     classB_UseInterTest.setDescription("This self-test check interrupts operation with the help of NVIC, RTC and TC0")
-    
     
     classBReadOnlyParams = classBComponent.createMenuSymbol("CLASSB_ADDR_MENU", None)
     classBReadOnlyParams.setLabel("Build parameters (read-only) used by the library")
@@ -364,7 +353,6 @@ def instantiateComponent(classBComponent):
     else:
         PORT_LIST_CFG.setDefaultValue(PORT_LIST[0:len(PORT_LIST)-2])
     
-        
 ############################################################################
 #### Code Generation ####
 ############################################################################
