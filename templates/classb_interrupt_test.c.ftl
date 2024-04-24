@@ -64,7 +64,7 @@ static uint32_t off_org;
  *----------------------------------------------------------------------------*/
 
 /*============================================================================
-static void sCLASSB_TMR2_Handler(void)
+static void  __attribute__((interrupt(IPL1SRS))) __attribute__((address(0x9D002200),nomips16,nomicromips) ) sCLASSB_TMR2_Handler(void)
 ------------------------------------------------------------------------------
 Purpose: Custom handler used for Timer Interrupt test. It clears the interrupt
          flag and updates the interrupt count variable.
@@ -79,10 +79,10 @@ static void  __attribute__((interrupt(IPL1SRS))) __attribute__((address(0x9D0022
     (*interrupt_count)++;
 }
 /*============================================================================
-static void sCLASSB_set_ebase(void)
+static void sCLASSB_set_ebase(unsigned int value)
 ------------------------------------------------------------------------------
 Purpose: Setting value of Ebase and TMR2 OFF register   
-Input  : None.
+Input  : Ebase value.
 Output : None.
 ============================================================================*/
 static void sCLASSB_set_ebase(unsigned int value)
@@ -91,7 +91,6 @@ static void sCLASSB_set_ebase(unsigned int value)
     SYSKEY = 0x00000000U;
     SYSKEY = 0xAA996655U;
     SYSKEY = 0x556699AAU;
-    
     
     /*Set the CP0 registers for multi-vector interrupt */
     INTCONCLR = _INTCON_MVEC_MASK;// Set the MVEC bit
@@ -145,10 +144,10 @@ static void sCLASSB_BuildVectorTable(void)
 }
 
 /*============================================================================
-static void sCLASSB_set_ebase_org(void)
+static void sCLASSB_set_ebase_org(unsigned int value)
 ------------------------------------------------------------------------------
 Purpose: Setting original value of Ebase and TMR2 OFF register   
-Input  : None.
+Input  : Ebase value.
 Output : None.
 ============================================================================*/
 static void sCLASSB_set_ebase_org(unsigned int value)
@@ -157,7 +156,6 @@ static void sCLASSB_set_ebase_org(unsigned int value)
     SYSKEY = 0x00000000U;
     SYSKEY = 0xAA996655U;
     SYSKEY = 0x556699AAU;
-    
     
     /*Set the CP0 registers for multi-vector interrupt */
     INTCONCLR = _INTCON_MVEC_MASK;// Set the MVEC bit
@@ -223,28 +221,28 @@ static void sCLASSB_INT_CLK_Initialize(void)
 }
 
 /*============================================================================
-bool sCLASSB_Int_EVIC_SourceStatusGet( CLASSB_INT_SOURCE source )
+static bool sCLASSB_INT_EVIC_SourceStatusGet( CLASSB_INT_SOURCE source )
 ------------------------------------------------------------------------------
 Purpose: Get EVIC source status
-Input  : None.
-Output : None.
+Input  : Interrupt source.
+Output : bool.
 Notes  : None.
 ============================================================================*/
-static bool sCLASSB_Int_EVIC_SourceStatusGet( CLASSB_INT_SOURCE source )
+static bool sCLASSB_INT_EVIC_SourceStatusGet( CLASSB_INT_SOURCE source )
 {
     volatile uint32_t *IFSx = (volatile uint32_t *)(&IFS0 + ((0x10 * (source / 32)) / 4));
     return (bool)((*IFSx >> (source & (uint32_t)0x1f)) & (uint32_t)0x1);
 }
 
 /*============================================================================
-void sCLASSB_Int_EVIC_SourceStatusClear( CLASSB_INT_SOURCE source )
+static void sCLASSB_INT_EVIC_SourceStatusClear( CLASSB_INT_SOURCE source )
 ------------------------------------------------------------------------------
 Purpose: Clear EVIC source status
-Input  : None.
+Input  : Interrupt source.
 Output : None.
 Notes  : None.
 ============================================================================*/
-static void sCLASSB_Int_EVIC_SourceStatusClear( CLASSB_INT_SOURCE source )
+static void sCLASSB_INT_EVIC_SourceStatusClear( CLASSB_INT_SOURCE source )
 {
     volatile uint32_t *IFSx = (volatile uint32_t *) (&IFS0 + ((0x10U * (source / 32U)) / 4U));
     volatile uint32_t *IFSxCLR = (volatile uint32_t *)(IFSx + 1U);
@@ -252,14 +250,14 @@ static void sCLASSB_Int_EVIC_SourceStatusClear( CLASSB_INT_SOURCE source )
 }
 
 /*============================================================================
-void sCLASSB_Int_EVIC_SourceEnable( CLASSB_INT_SOURCE source )
+static void sCLASSB_INT_EVIC_SourceEnable( CLASSB_INT_SOURCE source )
 ------------------------------------------------------------------------------
 Purpose: Enable EVIC source for Interrupt self-test
-Input  : None.
+Input  : Interrupt source.
 Output : None.
 Notes  : None.
 ============================================================================*/
-static void sCLASSB_Int_EVIC_SourceEnable( CLASSB_INT_SOURCE source )
+static void sCLASSB_INT_EVIC_SourceEnable( CLASSB_INT_SOURCE source )
 {
     volatile uint32_t *IECx = (volatile uint32_t *) (&IEC0 + ((0x10 * (source / 32)) / 4));
     volatile uint32_t *IECxSET = (volatile uint32_t *)(IECx + 2);
@@ -279,13 +277,13 @@ static void sCLASSB_TMR1_Initialize(void)
     /* Disable Timer */
     T1CONCLR = _T1CON_ON_MASK;
     /*
-    SIDL = 0
-    TWDIS = 0
-    TECS = 2
-    TGATE = 0
-    TCKPS = 3
-    TSYNC = 0
-    TCS = 0
+    SIDL = 0 - Continue operation even in Idle mode
+    TWDIS = 0 - Back-to-back writes are enabled (Legacy Asynchronous Timer functionality)
+    TECS = 2 - External clock comes from the LPRC
+    TGATE = 0 - Gated time accumulation is disabled
+    TCKPS = 3 - 1:256 prescale value
+    TSYNC = 0 - External clock input is not synchronized
+    TCS = 0 - Internal peripheral clock
     */
     T1CONbits.TCS = 0;
     T1CONSET = 0x00;
@@ -294,18 +292,18 @@ static void sCLASSB_TMR1_Initialize(void)
     /* Clear counter */
     TMR1 = 0x0;
 
-    sCLASSB_Int_EVIC_SourceEnable(INT_SOURCE_TIMER_1);
+    sCLASSB_INT_EVIC_SourceEnable(INT_SOURCE_TIMER_1);
 }
 
 /*============================================================================
-static void sClassb_EVIC_Initialize(void)
+static void sCLASSB_EVIC_Initialize(void)
 ------------------------------------------------------------------------------
 Purpose: Initializes the EVIC
 Input  : None.
 Output : None.
 Notes  : None.
 ============================================================================*/
-static void sClassb_EVIC_Initialize( void )
+static void sCLASSB_EVIC_Initialize( void )
 {
     INTCONSET = _INTCON_MVEC_MASK;
     /* Set up priority and subpriority of enabled interrupts */
@@ -349,10 +347,10 @@ static void sCLASSB_TMR2_Initialize(void)
 }
 
 /*============================================================================
-static void sCLASSB_INT_TMR1_Period_Set(void)
+static void sCLASSB_INT_TMR1_Period_Set(uint32_t period)
 ------------------------------------------------------------------------------
 Purpose: Configure TMR1 peripheral for Interrupt self-test
-Input  : None.
+Input  : TMR1 period.
 Output : None.
 Notes  : The clocks required for TMR1 are configured in a separate function.
 ============================================================================*/
@@ -362,9 +360,9 @@ static void sCLASSB_INT_TMR1_Period_Set(uint32_t period)
 }
 
 /*============================================================================
-static void _CLASSB_INT_TMR1_Enable(void)
+static void sCLASSB_INT_TMR1_Start(void)
 ------------------------------------------------------------------------------
-Purpose: Enables the TMR1
+Purpose: Starts the TMR1
 Input  : None.
 Output : None.
 Notes  : None.
@@ -425,7 +423,7 @@ CLASSB_TEST_STATUS CLASSB_SST_InterruptTest(void)
 {
     
     CLASSB_TEST_STATUS intr_test_status = CLASSB_TEST_NOT_EXECUTED;
-    sCLASSB_Int_EVIC_SourceStatusClear(INT_SOURCE_TIMER_1); 
+    sCLASSB_INT_EVIC_SourceStatusClear(INT_SOURCE_TIMER_1); 
     // Reset the counter
     *interrupt_count = 0U;
     sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_SST, CLASSB_TEST_INTERRUPT,
@@ -436,24 +434,24 @@ CLASSB_TEST_STATUS CLASSB_SST_InterruptTest(void)
     sCLASSB_INT_CLK_Initialize();
     sCLASSB_TMR2_Initialize();
     sCLASSB_TMR1_Initialize();
-    sClassb_EVIC_Initialize();
+    sCLASSB_EVIC_Initialize();
     /* Enable global interrupts */
     (void) __builtin_enable_interrupts();
     /*Set period for 100 ms*/
     sCLASSB_INT_TMR1_Period_Set(39061U);
-    sCLASSB_Int_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_1);
-    while(sCLASSB_Int_EVIC_SourceStatusGet(CLASSB_INT_SOURCE_TIMER_1))
+    sCLASSB_INT_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_1);
+    while(sCLASSB_INT_EVIC_SourceStatusGet(CLASSB_INT_SOURCE_TIMER_1))
     {
         ;
     }
     sCLASSB_INT_TMR1_Start();
     sCLASSB_INT_TMR2_Start();
-    while(sCLASSB_Int_EVIC_SourceStatusGet(CLASSB_INT_SOURCE_TIMER_1) == false)
+    while(sCLASSB_INT_EVIC_SourceStatusGet(CLASSB_INT_SOURCE_TIMER_1) == false)
     {
         ;
     }
-    sCLASSB_Int_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_1);    
-    sCLASSB_Int_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_2);   
+    sCLASSB_INT_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_1);    
+    sCLASSB_INT_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_2);   
     sCLASSB_INT_TMR2_Stop();
     sCLASSB_INT_TMR1_Stop();
     
