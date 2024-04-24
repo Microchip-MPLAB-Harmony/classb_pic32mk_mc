@@ -70,7 +70,6 @@ SUBSTITUTE  GOODS,  TECHNOLOGY,  SERVICES,  OR  ANY  CLAIMS  BY  THIRD   PARTIES
 CLASSB_TEST_STATUS CLASSB_CPU_RegistersTest(bool running_context);
 CLASSB_TEST_STATUS OPTIMIZE_O0 CLASSB_CPU_PCTest(bool running_context);
 
-
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
 

@@ -44,12 +44,23 @@
 #include "classb/classb_cpu_reg_test.h"
 #include "classb/classb_reg_common.h"
 #include "definitions.h"
-// *****************************************************************************
-// *****************************************************************************
-// Section: Global Data Definitions
-// *****************************************************************************
-// *****************************************************************************
 
+/*----------------------------------------------------------------------------
+ *     Global Variables
+ *----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------
+ *     Functions
+ *----------------------------------------------------------------------------*/
+ 
+/*============================================================================
+CLASSB_TEST_STATUS CLASSB_CPU_RegistersTest(bool running_context)
+------------------------------------------------------------------------------
+Purpose: Perform stuck at fault to check CPU registers.
+Input  : context (startup or run-time)
+Output : Test status.
+Notes  : This function calls 'sCLASSB_CPURegistersTest()' to check the CPU registers.
+============================================================================*/
 CLASSB_TEST_STATUS CLASSB_CPU_RegistersTest(bool running_context)
 {
     int ret;
@@ -91,7 +102,8 @@ CLASSB_TEST_STATUS CLASSB_CPU_RegistersTest(bool running_context)
                     CLASSB_TEST_FAILED);
         }
         /* Remain in infinite loop if a register test is failed */
-        while(true){
+        while(true)
+        {
             ;
         }    
         
