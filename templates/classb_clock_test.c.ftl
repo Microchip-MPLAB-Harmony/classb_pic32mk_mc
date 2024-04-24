@@ -63,8 +63,6 @@
 /*----------------------------------------------------------------------------
  *     Functions
  *----------------------------------------------------------------------------*/
-
-
 /*============================================================================
 static uint32_t sCLASSB_Clock_CoreTimer_GetCount(void)
 ------------------------------------------------------------------------------
@@ -148,17 +146,16 @@ static void sCLASSB_Clock_TMR1_Init(void)
     /*Set period */
     PR1 = 162; // 5 Ms
 
-    
     /* Wait for SOSC ready */
     while(!(CLKSTAT & 0x00000014)) 
     {
         /*Wait*/
-      ;   
+        ;   
     }
 }
 
 /*============================================================================
-void sCLASSB_CLock_TMR1_IntSourceEnable( void )
+static void sCLASSB_CLock_TMR1_IntSourceEnable( void )
 ------------------------------------------------------------------------------
 Purpose: Enable TMR1 EVIC source for CPU clock self-test
 Input  : None.
@@ -174,10 +171,10 @@ static void sCLASSB_CLock_TMR1_IntSourceEnable( void )
 }
 
 /*============================================================================
-static void sCLASSB_Clock_TMR1_Period_Set(void)
+static void sCLASSB_Clock_TMR1_PeriodSet(void)
 ------------------------------------------------------------------------------
 Purpose: Configure TMR1 peripheral for CPU clock self-test
-Input  : None.
+Input  : TMR1 period to set.
 Output : None.
 Notes  : The clocks required for TMR1 are configured in a separate function.
 ============================================================================*/
@@ -200,16 +197,14 @@ static void sCLASSB_Clock_CLK_Initialize(void)
     SYSKEY = 0xAA996655U;
     SYSKEY = 0x556699AAU;
 
-
     PMD4bits.T1MD = 0;
-
 
     /* Lock system since done with clock configuration */
     SYSKEY = 0x33333333U;
 }
 
 /*============================================================================
-static void sCLASSB_EVIC_Initialize(void)
+static void sCLASSB_Clock_EVIC_Initialize(void)
 ------------------------------------------------------------------------------
 Purpose: Initialize EVIC register set
 Input  : None.
@@ -225,11 +220,11 @@ static void sCLASSB_Clock_EVIC_Initialize(void)
 }
 
 /*============================================================================
-bool sCLASSB_Clock_TMR1_GetIntFlagStatus( void )
+static bool sCLASSB_Clock_TMR1_GetIntFlagStatus( void )
 ------------------------------------------------------------------------------
 Purpose: Get TMR1 EVIC source status
-Input  : TMR1 interrupt flag status.
-Output : None.
+Input  : None.
+Output : TMR1 interrupt flag status.
 Notes  : None.
 ============================================================================*/
 static bool sCLASSB_Clock_TMR1_GetIntFlagStatus( void )
@@ -242,7 +237,7 @@ static bool sCLASSB_Clock_TMR1_GetIntFlagStatus( void )
 /*============================================================================
 static void sCLASSB_Clock_TMR1_ClearIntFlagStatus( void )
 ------------------------------------------------------------------------------
-Purpose: Clear EVIC source status
+Purpose: Clear TMR1 EVIC source status
 Input  : None.
 Output : None.
 Notes  : None.
@@ -267,8 +262,6 @@ Input  : Expected CPU clock frequency value, acceptable error percentage,
 Output : Test status.
 Notes  : None.
 ============================================================================*/
-
-
 CLASSB_TEST_STATUS CLASSB_ClockTest(uint32_t cpu_clock_freq,
     uint8_t error_limit,
     uint32_t clock_test_tmr1_cycles,
