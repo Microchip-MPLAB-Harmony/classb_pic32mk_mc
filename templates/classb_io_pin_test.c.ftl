@@ -129,10 +129,10 @@ bool sCLASSB_GPIO_Validate_PortPin(CLASSB_PORT_INDEX port, CLASSB_GPIO_PIN pin)
 }
 
 /*============================================================================
-uint32_t sCLASSB_GPIO_PortRead(GPIO_PORT port);
+uint32_t sCLASSB_GPIO_PortRead(CLASSB_PORT_INDEX port);
 ------------------------------------------------------------------------------
 Purpose: Read the GPIO Port status
-Input  : None.
+Input  : GPIO port.
 Output : None.
 Notes  : 
 ============================================================================*/

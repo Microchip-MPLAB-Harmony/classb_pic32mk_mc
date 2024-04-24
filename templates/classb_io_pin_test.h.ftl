@@ -84,7 +84,6 @@ typedef enum classb_port_index
     </#list>
 } CLASSB_PORT_INDEX;
 
-
 // *****************************************************************************
 /* PIN definitions
 
@@ -138,7 +137,6 @@ typedef enum classb_gpio_pin_state
  *----------------------------------------------------------------------------*/
 CLASSB_TEST_STATUS CLASSB_RST_IOTest(CLASSB_PORT_INDEX port, CLASSB_GPIO_PIN pin,
         CLASSB_GPIO_PIN_STATE state);
-
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
