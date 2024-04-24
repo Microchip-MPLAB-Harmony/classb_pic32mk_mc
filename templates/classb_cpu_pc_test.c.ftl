@@ -127,10 +127,10 @@ static CLASSB_CPU_PC_TEST_VALUES sCLASSB_CPU_PCTestRoutineC(CLASSB_CPU_PC_TEST_V
 }
 
 /*============================================================================
-CLASSB_TEST_STATUS CLASSB_CPU_PCTest(void)
+CLASSB_TEST_STATUS CLASSB_CPU_PCTest(bool running_context)
 ------------------------------------------------------------------------------
 Purpose: Self-test function for the Program Counter
-Input  : None
+Input  : context (startup or run-time).
 Output : Test status
 Notes  : None
 ============================================================================*/
