@@ -69,7 +69,7 @@ static void sCLASSB_MemCopy(uint32_t* dest, uint32_t* src, uint32_t size_in_byte
 Purpose: Copies given number of bytes, from one SRAM area to the other.
 Input  : Destination address, source address and size
 Output : None
-Notes  : This function is used by SRAM tests.
+Notes  : This function is used by SRAM tests. Optimization is set to zero, else the compiler optimizes these function away
 ============================================================================*/
 static void OPTIMIZE_O0 sCLASSB_MemCopy(uint32_t* dest, uint32_t* src, uint32_t size_in_bytes)
 {
