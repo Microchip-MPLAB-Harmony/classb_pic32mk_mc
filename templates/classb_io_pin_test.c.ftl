@@ -54,12 +54,12 @@
 /* Available GPIO Port and Pin List */ 
 <#lt>static CLASSB_PORT_INDEX CLASSB_PORT_LIST[] = 
 {
-    ${.vars["GPIO_CHANNEL_LIST"]}
+    ${.vars["CLASSB_GPIO_CHANNEL_LIST"]}
 };
 
-<#list 0..GPIO_CHANNEL_TOTAL-1 as k>
-    <#assign pin_channel = "GPIO_CHANNEL_" + k + "_NAME">
-    <#assign port_pin_list = "GPIO_CHANNEL_" + k + "_PIN_LIST">
+<#list 0..CLASSB_GPIO_CHANNEL_TOTAL-1 as k>
+    <#assign pin_channel = "CLASSB_GPIO_CHANNEL_" + k + "_NAME">
+    <#assign port_pin_list = "CLASSB_GPIO_CHANNEL_" + k + "_PIN_LIST">
     <#lt>static CLASSB_GPIO_PIN CLASSB_PORT_${.vars[pin_channel]}_PIN_LIST[] = 
     <#lt>{
     <#lt>    ${.vars[port_pin_list]}
@@ -102,8 +102,8 @@ bool sCLASSB_GPIO_Validate_PortPin(CLASSB_PORT_INDEX port, CLASSB_GPIO_PIN pin)
     /* GPIO Pin validation */ 
     switch (port) 
     {
-    <#list 0..GPIO_CHANNEL_TOTAL-1 as i>
-        <#assign pin_channel = "GPIO_CHANNEL_" + i + "_NAME">
+    <#list 0..CLASSB_GPIO_CHANNEL_TOTAL-1 as i>
+        <#assign pin_channel = "CLASSB_GPIO_CHANNEL_" + i + "_NAME">
         case CLASSB_GPIO_PORT_${.vars[pin_channel]}:
             pin_cnt = sizeof (CLASSB_PORT_${.vars[pin_channel]}_PIN_LIST) 
                     / sizeof (CLASSB_PORT_${.vars[pin_channel]}_PIN_LIST[0]);

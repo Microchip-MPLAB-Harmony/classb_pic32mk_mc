@@ -76,8 +76,8 @@ SUBSTITUTE  GOODS,  TECHNOLOGY,  SERVICES,  OR  ANY  CLAIMS  BY  THIRD   PARTIES
 */
 typedef enum classb_port_index
 {
-    <#list 0..GPIO_CHANNEL_TOTAL-1 as i>
-        <#assign channel = "GPIO_CHANNEL_" + i + "_NAME">
+    <#list 0..CLASSB_GPIO_CHANNEL_TOTAL-1 as i>
+        <#assign channel = "CLASSB_GPIO_CHANNEL_" + i + "_NAME">
         <#if .vars[channel]?has_content> 
             <#lt>   CLASSB_GPIO_PORT_${.vars[channel]} = ${i}U,
         </#if>
@@ -96,13 +96,13 @@ typedef enum classb_port_index
   Remarks:
     None.
 */
-<#list 0..GPIO_CHANNEL_TOTAL-1 as j>
-    <#assign pin_channel = "GPIO_CHANNEL_" + j + "_NAME">
+<#list 0..CLASSB_GPIO_CHANNEL_TOTAL-1 as j>
+    <#assign pin_channel = "CLASSB_GPIO_CHANNEL_" + j + "_NAME">
     <#if .vars[pin_channel]?has_content>
-      <#assign pin_cnt = "GPIO_CHANNEL_" + j + "_PIN_CNT">
+      <#assign pin_cnt = "CLASSB_GPIO_CHANNEL_" + j + "_PIN_CNT">
       <#if .vars[pin_cnt]?has_content>
         <#list 0..<.vars[pin_cnt] as i>
-            <#assign pin_name = "GPIO_CHANNEL_" + j + "_PIN_" + i >
+            <#assign pin_name = "CLASSB_GPIO_CHANNEL_" + j + "_PIN_" + i >
             <#if .vars[pin_name]?has_content>
               <#lt>#define   CLASSB_GPIO_PIN_R${.vars[pin_channel]}${.vars[pin_name]}  (${.vars[pin_name]}U)
             </#if>
