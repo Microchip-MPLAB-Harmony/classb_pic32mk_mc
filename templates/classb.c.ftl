@@ -171,7 +171,7 @@ static void sCLASSB_GlobalsInit(void)
 ------------------------------------------------------------------------------
 Purpose: Initialization of global variables for the classb library.
 Input  : None
-Output : None
+Output : Returns, if Startup self test performed or not 
 Notes  : This function is called before C startup test
 ============================================================================*/
 static void sCLASSB_GlobalsInit(void) 
