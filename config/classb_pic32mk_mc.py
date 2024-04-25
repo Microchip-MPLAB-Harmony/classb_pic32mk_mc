@@ -303,7 +303,7 @@ def instantiateComponent(classBComponent):
     PORT_LIST = ""
     USE_PIN_MACRO = True
     # GPIO Total channel number
-    gpioTotalChannels = classBComponent.createIntegerSymbol("GPIO_CHANNEL_TOTAL" , classBReadOnlyParams)
+    gpioTotalChannels = classBComponent.createIntegerSymbol("CLASSB_GPIO_CHANNEL_TOTAL" , classBReadOnlyParams)
     gpioTotalChannels.setVisible(False)
     gpioTotalChannels.setDefaultValue(len(pioSymChannel))
 
@@ -312,11 +312,11 @@ def instantiateComponent(classBComponent):
         gpioChannelName.append(i)
         gpioChannelCnt.append(i)
         # GPIO Channel name
-        gpioChannelName[i] = classBComponent.createStringSymbol("GPIO_CHANNEL_" + str( i ) + "_NAME" , classBReadOnlyParams)
+        gpioChannelName[i] = classBComponent.createStringSymbol("CLASSB_GPIO_CHANNEL_" + str( i ) + "_NAME" , classBReadOnlyParams)
         gpioChannelName[i].setVisible(False)
         gpioChannelName[i].setDefaultValue(pioSymChannel[i])
         # GPIO Channel pin count
-        gpioChannelCnt[i] = classBComponent.createIntegerSymbol("GPIO_CHANNEL_" + str( i ) + "_PIN_CNT" , classBReadOnlyParams)
+        gpioChannelCnt[i] = classBComponent.createIntegerSymbol("CLASSB_GPIO_CHANNEL_" + str( i ) + "_PIN_CNT" , classBReadOnlyParams)
         gpioChannelCnt[i].setVisible(False)
         gpioChannelCnt[i].setDefaultValue(len(port_dict[pioSymChannel[i]]))
         # Constuct GPIO Port List
@@ -329,7 +329,7 @@ def instantiateComponent(classBComponent):
         for j in range(len(port_dict[pioSymChannel[i]])):
             gpioChannelPin.append(i)
             # GPIO Channel Pin name
-            gpioChannelPin[j] = classBComponent.createIntegerSymbol("GPIO_CHANNEL_" + str( i ) + "_PIN_" + str( j ) , classBReadOnlyParams)
+            gpioChannelPin[j] = classBComponent.createIntegerSymbol("CLASSB_GPIO_CHANNEL_" + str( i ) + "_PIN_" + str( j ) , classBReadOnlyParams)
             gpioChannelPin[j].setVisible(False)
             gpioChannelPin[j].setDefaultValue(port_dict[pioSymChannel[i]][j])
             # Construct GPIO PORT Pin List
@@ -339,14 +339,14 @@ def instantiateComponent(classBComponent):
                 PORT_PIN_LIST += str( port_dict[pioSymChannel[i]][j] ) + "U, "
         PORT_PIN_LIST_CFG.append(i)
         # GPIO PORT Pin List
-        PORT_PIN_LIST_CFG[i] = classBComponent.createStringSymbol("GPIO_CHANNEL_" + str( i ) + "_PIN_LIST", classBReadOnlyParams)
+        PORT_PIN_LIST_CFG[i] = classBComponent.createStringSymbol("CLASSB_GPIO_CHANNEL_" + str( i ) + "_PIN_LIST", classBReadOnlyParams)
         PORT_PIN_LIST_CFG[i].setVisible(False)
         if USE_PIN_MACRO:
             PORT_PIN_LIST_CFG[i].setDefaultValue(PORT_PIN_LIST[0:len(PORT_PIN_LIST)-7] )
         else:
             PORT_PIN_LIST_CFG[i].setDefaultValue(PORT_PIN_LIST[0:len(PORT_PIN_LIST)-2] )
     # Constuct GPIO Port List
-    PORT_LIST_CFG = classBComponent.createStringSymbol("GPIO_CHANNEL_LIST" , classBReadOnlyParams)
+    PORT_LIST_CFG = classBComponent.createStringSymbol("CLASSB_GPIO_CHANNEL_LIST" , classBReadOnlyParams)
     PORT_LIST_CFG.setVisible(False)
     if USE_PIN_MACRO:
         PORT_LIST_CFG.setDefaultValue(PORT_LIST[0:len(PORT_LIST)-7])
