@@ -310,6 +310,7 @@ CLASSB_TEST_STATUS CLASSB_ClockTest(uint32_t cpu_clock_freq,
         /*Below initialization required for TMR1 module and system clock to operate properly */
         (void)__builtin_disable_interrupts();
         sCLASSB_Clock_CLK_Initialize();
+        sCLASSB_Clock_EVIC_Initialize();
         (void)__builtin_enable_interrupts();
 
         sCLASSB_Clock_TMR1_Init();
@@ -342,12 +343,12 @@ CLASSB_TEST_STATUS CLASSB_ClockTest(uint32_t cpu_clock_freq,
         if (ticks_passed < expected_ticks)
         {
             // The CPU clock is slower than expected
-            calculated_error_limit = (uint8_t)((((expected_ticks - ticks_passed) * CLASSB_CLOCK_MUL_FACTOR)/ (expected_ticks)) * 100) / CLASSB_CLOCK_MUL_FACTOR;
+            calculated_error_limit = (uint8_t)(((((expected_ticks - ticks_passed) * CLASSB_CLOCK_MUL_FACTOR)/ (expected_ticks)) * 100) / CLASSB_CLOCK_MUL_FACTOR);
         }
         else
         {
             // The CPU clock is faster than expected
-            calculated_error_limit = (uint8_t)((((ticks_passed - expected_ticks) * CLASSB_CLOCK_MUL_FACTOR)/ (expected_ticks)) * 100) / CLASSB_CLOCK_MUL_FACTOR;
+            calculated_error_limit = (uint8_t)(((((ticks_passed - expected_ticks) * CLASSB_CLOCK_MUL_FACTOR)/ (expected_ticks)) * 100) / CLASSB_CLOCK_MUL_FACTOR);
         }
 
         if (error_limit > calculated_error_limit)

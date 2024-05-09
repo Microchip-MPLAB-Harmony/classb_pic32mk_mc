@@ -48,8 +48,8 @@
  *     Constants
  *----------------------------------------------------------------------------*/
 #define CLASSB_SRAM_FINAL_WORD_ADDRESS      (0xa003fffcU)
-#define CLASSB_SRAM_BUFF_START_ADDRESS      (0x80000200U)
-#define CLASSB_SRAM_TEMP_STACK_ADDRESS      (0x80000100U)
+#define CLASSB_SRAM_BUFF_START_ADDRESS      (0x80000600U)
+#define CLASSB_SRAM_TEMP_STACK_ADDRESS      (0x80000500U)
 #define CLASSB_SRAM_ALL_32BITS_HIGH         (0xFFFFFFFFU)
 
 #define sCLASSB_GetStackPointer()           stack_address = stack_ptr_register;

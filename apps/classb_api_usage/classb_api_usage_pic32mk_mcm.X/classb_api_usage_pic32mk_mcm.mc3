@@ -3447,15 +3447,6 @@
 </value>
       </entry>
       <entry>
-         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="lib_classb_pic32mk_mc" name="CLASSB_SRAM_START_ADDRESS"/>
-         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;lib_classb_pic32mk_mc&gt;
-  &lt;lib_classb_pic32mk_mc dnOrder=&quot;0&quot; id=&quot;CLASSB_SRAM_START_ADDRESS&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
-  &lt;/lib_classb_pic32mk_mc&gt;
-&lt;/lib_classb_pic32mk_mc&gt;
-</value>
-      </entry>
-      <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="lib_classb_pic32mk_mc" name="CLASSB_SRAM_START_MSB"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;lib_classb_pic32mk_mc&gt;
   &lt;lib_classb_pic32mk_mc dnOrder=&quot;0&quot; id=&quot;CLASSB_SRAM_START_MSB&quot;&gt;
@@ -4260,7 +4251,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb.c</file>
-         <hash>7128c513698987850fb56d33fbccd0caebbb3be4fecc8311b3305be03d999fd7</hash>
+         <hash>b035ebb47ba8ae6d3953c947f23de14a31646629a4ff1ffeea9b7e6698fdb352</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb.h</file>
@@ -4268,7 +4259,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_clock_test.c</file>
-         <hash>9de56fa916c420fd9b5b83dd2ad9b9b2e5b6ae1beca17d00c72e489d1cf4c374</hash>
+         <hash>1ccd0aefc0b61189263d42a7f325a2497ca23b6925b5a6496dd0a9058459b29d</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_clock_test.h</file>
@@ -4336,7 +4327,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_result_management.S</file>
-         <hash>fcb6d896b3f0a4795a090219839e23ad27ce345b660b98f2bc1799f3eac4bb5b</hash>
+         <hash>f128d0a3f045431a0eb8f2b9908fde4607b04e6566ff95fc0ea0330523c08634</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_result_management.h</file>
@@ -4352,11 +4343,11 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_sram_test.c</file>
-         <hash>0fd98e432966aa4b9fcaaaf59dd0320d26e9e9b8b84b5d75a17645fb369067fe</hash>
+         <hash>a2334e715334e0c77802207ce1c949e67105e4373e9f8b7101d132fc1af807f0</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_sram_test.h</file>
-         <hash>6edf13fc1cd07f60d72edeffd342fa0574904b800823c64223d8401ffacfd618</hash>
+         <hash>e87f9b51b17b21f9972298e562344617d8183545687f427dd83814d3c22fe479</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\definitions.h</file>
