@@ -51,9 +51,9 @@ SUBSTITUTE  GOODS,  TECHNOLOGY,  SERVICES,  OR  ANY  CLAIMS  BY  THIRD   PARTIES
 .global sCLASSB_UpdateTestResult
 
 ; /* SRAM address for SST results */
-.equ SST_RES_ADDRESS, 0xA0000000
+.equ SST_RES_ADDRESS, 0x${CLASSB_SRAM_RESERVED_START_ADDRESS}
 ; /* SRAM address for RST results */
-.equ RST_RES_ADDRESS, 0xA0000004
+.equ RST_RES_ADDRESS, 0x${CLASSB_SRAM_START_MSB + "04"}
 ; /* Result mask is 0x03 (2-bit results) */
 .equ RESULT_BIT_MASK, 0x03
 ; /* CLASSB_TEST_STATUS */

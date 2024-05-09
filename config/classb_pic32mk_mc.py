@@ -98,14 +98,14 @@ def instantiateComponent(classBComponent):
         classB_SRAM_SIZE.setDefaultValue(int(classBSRAMNode.getAttribute("size"), 16))
         
         #SRAM address
-        classB_SRAM_ADDR = classBComponent.createHexSymbol("CLASSB_SRAM_START_ADDRESS", None)
+        classB_SRAM_ADDR = classBComponent.createHexSymbol("CLASSB_SRAM_RESERVED_START_ADDRESS", None)
         classB_SRAM_ADDR.setVisible(False)
-        classB_SRAM_ADDR.setDefaultValue(int(classBSRAMNode.getAttribute("start"), 16)  + (0xA0000000))
+        classB_SRAM_ADDR.setDefaultValue(int(classBSRAMNode.getAttribute("start"), 16)  + (0xA0000400))
         
         #SRAM address MSB 24 bits
         classB_SRAM_START_MSB = classBComponent.createHexSymbol("CLASSB_SRAM_START_MSB", None)
         classB_SRAM_START_MSB.setVisible(False)
-        classB_SRAM_START_MSB.setDefaultValue((int(classBSRAMNode.getAttribute("start"), 16) >> 8) + (0xA0000000 >> 8))
+        classB_SRAM_START_MSB.setDefaultValue((int(classBSRAMNode.getAttribute("start"), 16) >> 8) + (0xA0000400 >> 8))
         
         # SRAM reserve size is 1K bytes
         classB_SRAM_RESERVE_SIZE = classBComponent.createIntegerSymbol("CLASSB_SRAM_RESERVE_SIZE", None)
@@ -596,6 +596,6 @@ def instantiateComponent(classBComponent):
     classB_xc32ld_reserve_sram.setKey("oXC32ld-extra-opts")
     classB_xc32ld_reserve_sram.setAppend(True, ";")
     
-    classB_xc32ld_reserve_sram.setValue("-mreserve=data@0x00000000:0x000003ff")
+    classB_xc32ld_reserve_sram.setValue("-mreserve=data@0x00000400:0x000007ff")
    
     

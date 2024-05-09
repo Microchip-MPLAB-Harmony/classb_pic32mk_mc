@@ -49,8 +49,8 @@
  *----------------------------------------------------------------------------*/ 
 #define FLASH_START_ADDR 		            (0xBD000000U)
 #define FLASH_SIZE       		            (0x${CLASSB_FLASH_SIZE}U)
-#define SRAM_BASE_ADDRESS                   (0xA0000000U)
-#define CLASSB_RESULT_ADDR                  (0x${CLASSB_SRAM_START_ADDRESS}U)
+#define SRAM_RESERVED_START_ADDRESS         (0x${CLASSB_SRAM_RESERVED_START_ADDRESS}U)
+#define CLASSB_RESULT_ADDR                  (0x${CLASSB_SRAM_RESERVED_START_ADDRESS}U)
 #define CLASSB_COMPL_RESULT_ADDR            (0x${CLASSB_SRAM_START_MSB + "04"}U)
 #define CLASSB_ONGOING_TEST_VAR_ADDR        (0x${CLASSB_SRAM_START_MSB + "08"}U)
 #define CLASSB_TEST_IN_PROG_VAR_ADDR        (0x${CLASSB_SRAM_START_MSB + "0c"}U)
@@ -369,8 +369,8 @@ static CLASSB_INIT_STATUS sCLASSB_Init(void)
             bool result_area_test_ok = false;
             bool ram_buffer_test_ok = false;
             // Test the reserved SRAM
-            result_area_test_ok = CLASSB_RAMMarchC((uint32_t *) SRAM_BASE_ADDRESS, CLASSB_SRAM_TEST_BUFFER_SIZE);
-            ram_buffer_test_ok = CLASSB_RAMMarchC((uint32_t *) SRAM_BASE_ADDRESS + CLASSB_SRAM_TEST_BUFFER_SIZE, CLASSB_SRAM_TEST_BUFFER_SIZE);
+            result_area_test_ok = CLASSB_RAMMarchC((uint32_t *) SRAM_RESERVED_START_ADDRESS, CLASSB_SRAM_TEST_BUFFER_SIZE);
+            ram_buffer_test_ok = CLASSB_RAMMarchC((uint32_t *) SRAM_RESERVED_START_ADDRESS + CLASSB_SRAM_TEST_BUFFER_SIZE, CLASSB_SRAM_TEST_BUFFER_SIZE);
             if ((result_area_test_ok == true) && (ram_buffer_test_ok == true)) 
             {
                 // Initialize all Class B variables
@@ -632,42 +632,42 @@ void _on_bootstrap(void);/* Declaration required to avoid MISRA error */
 
 void _on_bootstrap(void) 
 {
-     CLASSB_STARTUP_STATUS startup_tests_status = CLASSB_STARTUP_TEST_FAILED;
-     CLASSB_INIT_STATUS init_status = sCLASSB_Init();
-     if (init_status == CLASSB_SST_NOT_DONE) 
-     {
-         // Run all startup self-tests
-         startup_tests_status = sCLASSB_Startup_Tests();
-         if (startup_tests_status == CLASSB_STARTUP_TEST_PASSED) 
-         {
-             // Reset the device if all tests are passed.
-             sCLASSB_SystemReset();
-         } 
-         else if (startup_tests_status == CLASSB_STARTUP_TEST_FAILED) 
-         {
+    CLASSB_STARTUP_STATUS startup_tests_status = CLASSB_STARTUP_TEST_FAILED;
+    CLASSB_INIT_STATUS init_status = sCLASSB_Init();
+    if (init_status == CLASSB_SST_NOT_DONE) 
+    {
+        // Run all startup self-tests
+        startup_tests_status = sCLASSB_Startup_Tests();
+        if (startup_tests_status == CLASSB_STARTUP_TEST_PASSED) 
+        {
+            // Reset the device if all tests are passed.
+            sCLASSB_SystemReset();
+        } 
+        else if (startup_tests_status == CLASSB_STARTUP_TEST_FAILED) 
+        {
 #if (defined(__DEBUG) || defined(__DEBUG_D)) && defined(__XC32)
-             __builtin_software_breakpoint();
+            __builtin_software_breakpoint();
 #endif            
-             // Infinite loop
-             while (true) 
-             {
-                 ;
-             }
-         } 
-         else 
-         {
-             // If startup tests are not enabled via MHC, do nothing.
-             ;
-         }
-     } 
-     else if (init_status == CLASSB_SST_DONE) 
-     {
-         // Clear flags
-         *classb_test_in_progress = (uint8_t)CLASSB_TEST_NOT_STARTED;
-     } 
-     else
-     {
-         // The init_status is neither CLASSB_SST_NOT_DONE nor CLASSB_SST_DONE, do nothing.
-         ;
-     }
+            // Infinite loop
+            while (true) 
+            {
+                ;
+            }
+        } 
+        else 
+        {
+            // If startup tests are not enabled via MHC, do nothing.
+            ;
+        }
+    } 
+    else if (init_status == CLASSB_SST_DONE) 
+    {
+        // Clear flags
+        *classb_test_in_progress = (uint8_t)CLASSB_TEST_NOT_STARTED;
+    } 
+    else
+    {
+        // The init_status is neither CLASSB_SST_NOT_DONE nor CLASSB_SST_DONE, do nothing.
+        ;
+    }
 }
