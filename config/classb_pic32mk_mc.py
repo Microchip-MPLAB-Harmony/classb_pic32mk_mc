@@ -90,6 +90,11 @@ def instantiateComponent(classBComponent):
         classB_FLASH_SIZE.setVisible(False)
         classB_FLASH_SIZE.setDefaultValue( int(classBFlashNode.getAttribute("size"), 16))
         
+        #FLASH address
+        classB_FLASH_KSEG1_START_ADDR = classBComponent.createHexSymbol("CLASSB_FLASH_KSEG1_START_ADDR", None)
+        classB_FLASH_KSEG1_START_ADDR.setVisible(False)
+        classB_FLASH_KSEG1_START_ADDR.setDefaultValue(int(classBFlashNode.getAttribute("start"), 16) + (0xA0000000))
+        
     classBSRAMNode = ATDF.getNode("/avr-tools-device-file/devices/device/address-spaces/address-space/memory-segment@[name=\"kseg0_data_mem\"]")
     if classBSRAMNode != None:
         #SRAM size
@@ -175,9 +180,9 @@ def instantiateComponent(classBComponent):
     classB_CRC_address = classBComponent.createHexSymbol("CLASSB_FLASHCRC_ADDR", classB_FlashCRC_Option)
     classB_CRC_address.setLabel("Flash CRC location")
     # classB_CRC_address.setDefaultValue(0xFE000)
-    classB_CRC_address.setDefaultValue(classB_FLASH_SIZE.getValue() - 4)
-    classB_CRC_address.setMin(0)
-    classB_CRC_address.setMax(classB_FLASH_SIZE.getValue() - 4)
+    classB_CRC_address.setDefaultValue(classB_FLASH_KSEG1_START_ADDR.getValue() + classB_FLASH_SIZE.getValue() - 4)
+    classB_CRC_address.setMin(classB_FLASH_KSEG1_START_ADDR.getValue())
+    classB_CRC_address.setMax(classB_FLASH_KSEG1_START_ADDR.getValue() + classB_FLASH_SIZE.getValue() - 4)
     classB_CRC_address.setVisible(False)
     classB_CRC_address.setHelp("Harmony_ClassB_Library_for_PIC32MK_MC")
     # This should be enabled based on the above configuration
