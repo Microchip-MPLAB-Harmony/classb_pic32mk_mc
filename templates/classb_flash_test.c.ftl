@@ -78,13 +78,13 @@ uint32_t CLASSB_FlashCRCGenerate(uint32_t start_addr, uint32_t size)
     uint8_t    j;
 
     /* Generate table for CRC-32 calculation */
-    for (i = 0; i < 256; i++)
+    for (i = 0; i < 256U; i++)
     {
         value = i;
         
-        for (j = 0; j < 8; j++)
+        for (j = 0; j < 8U; j++)
         {
-            if ((value & 1) == 1)
+            if ((value & 1U) == 1U)
             {
                 value = (value >> 1) ^ CLASSB_FLASH_CRC32_POLYNOMIAL;
             }
@@ -100,7 +100,7 @@ uint32_t CLASSB_FlashCRCGenerate(uint32_t start_addr, uint32_t size)
     for (i = 0; i < size; i++)
     {
         data = *(uint8_t *) (start_addr + i);
-        crc = crc32_table[(crc ^ data) & 0xff] ^ (crc >> 8);
+        crc = crc32_table[(crc ^ data) & 0xffU] ^ (crc >> 8);
     }
 
     /*Return the 1's complement */
@@ -166,6 +166,7 @@ CLASSB_TEST_STATUS CLASSB_FlashCRCTest(uint32_t start_addr,
     }
     else
     {
+        /*Do nothing*/
         ;
     }
 

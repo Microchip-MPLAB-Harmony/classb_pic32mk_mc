@@ -90,14 +90,14 @@ Notes  : If SysTick is used by the application, ensure that it
 static void sCLASSB_Clock_CoreTimer_Start( void )
 {
     // Disable Timer by setting Disable Count (DC) bit
-    _CP0_SET_CAUSE(_CP0_GET_CAUSE() | _CP0_CAUSE_DC_MASK);
+    _CP0_SET_CAUSE(_CP0_GET_CAUSE() | (uint32_t)_CP0_CAUSE_DC_MASK);
     // Disable Interrupt
     IEC0CLR=0x1;
     // Clear Core Timer
     _CP0_SET_COUNT(0);
     _CP0_SET_COMPARE(0xFFFFFFFF);
     // Enable Timer by clearing Disable Count (DC) bit
-    _CP0_SET_CAUSE(_CP0_GET_CAUSE() & (~_CP0_CAUSE_DC_MASK));
+    _CP0_SET_CAUSE(_CP0_GET_CAUSE() & (~(uint32_t)_CP0_CAUSE_DC_MASK));
     
 }
 
@@ -147,7 +147,7 @@ static void sCLASSB_Clock_TMR1_Init(void)
     PR1 = 162; // 5 Ms
 
     /* Wait for SOSC ready */
-    while(!(CLKSTAT & 0x00000014)) 
+    while((CLKSTAT & 0x00000014U) == 0U) 
     {
         /*Wait*/
         ;   
@@ -164,10 +164,7 @@ Notes  : None.
 ============================================================================*/
 static void sCLASSB_CLock_TMR1_IntSourceEnable( void )
 {
-    volatile uint32_t *IECx = (volatile uint32_t *) (&IEC0 + ((0x10 * (_TIMER_1_VECTOR / 32)) / 4));
-    volatile uint32_t *IECxSET = (volatile uint32_t *)(IECx + 2);
-
-    *IECxSET = 1 << (_TIMER_1_VECTOR & 0x1f);
+	IEC0SET = _IEC0_T1IE_MASK;
 }
 
 /*============================================================================
@@ -229,9 +226,7 @@ Notes  : None.
 ============================================================================*/
 static bool sCLASSB_Clock_TMR1_GetIntFlagStatus( void )
 {
-    volatile uint32_t *IFSx = (volatile uint32_t *)(&IFS0 + ((0x10 * (_TIMER_1_VECTOR / 32)) / 4));
-
-    return (bool)((*IFSx >> (_TIMER_1_VECTOR & 0x1f)) & 0x1);
+    return (((IFS0 >> (uint32_t)_TIMER_1_VECTOR) & 0x1U) != 0U);
 }
 
 /*============================================================================
@@ -244,10 +239,7 @@ Notes  : None.
 ============================================================================*/
 static void sCLASSB_Clock_TMR1_ClearIntFlagStatus( void )
 {
-    volatile uint32_t *IFSx = (volatile uint32_t *) (&IFS0 + ((0x10 * (_TIMER_1_VECTOR / 32)) / 4));
-    volatile uint32_t *IFSxCLR = (volatile uint32_t *)(IFSx + 1);
-
-    *IFSxCLR = 1 << (_TIMER_1_VECTOR & 0x1f);
+    IFS0CLR = _IFS0_T1IF_MASK;
 }
 
 /*============================================================================
@@ -334,7 +326,7 @@ CLASSB_TEST_STATUS CLASSB_ClockTest(uint32_t cpu_clock_freq,
         systick_count_b = sCLASSB_Clock_CoreTimer_GetCount();
         
         /*Core timer increments at half the system clock frequency (SYSCLK).*/
-        expected_ticks = expected_ticks/2 ;
+        expected_ticks = expected_ticks/2U ;
         
         ticks_passed = (systick_count_b); //to avoid MISRA C violation
         ticks_passed -= (systick_count_a);//to avoid MISRA C violation
@@ -343,12 +335,12 @@ CLASSB_TEST_STATUS CLASSB_ClockTest(uint32_t cpu_clock_freq,
         if (ticks_passed < expected_ticks)
         {
             // The CPU clock is slower than expected
-            calculated_error_limit = (uint8_t)(((((expected_ticks - ticks_passed) * CLASSB_CLOCK_MUL_FACTOR)/ (expected_ticks)) * 100) / CLASSB_CLOCK_MUL_FACTOR);
+            calculated_error_limit = (uint8_t)(((((expected_ticks - ticks_passed) * CLASSB_CLOCK_MUL_FACTOR)/ (expected_ticks)) * 100U) / CLASSB_CLOCK_MUL_FACTOR);
         }
         else
         {
             // The CPU clock is faster than expected
-            calculated_error_limit = (uint8_t)(((((ticks_passed - expected_ticks) * CLASSB_CLOCK_MUL_FACTOR)/ (expected_ticks)) * 100) / CLASSB_CLOCK_MUL_FACTOR);
+            calculated_error_limit = (uint8_t)(((((ticks_passed - expected_ticks) * CLASSB_CLOCK_MUL_FACTOR)/ (expected_ticks)) * 100U) / CLASSB_CLOCK_MUL_FACTOR);
         }
 
         if (error_limit > calculated_error_limit)

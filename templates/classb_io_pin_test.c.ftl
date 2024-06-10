@@ -119,7 +119,7 @@ Notes  :
 ============================================================================*/
 uint32_t sCLASSB_GPIO_PortRead(CLASSB_PORT_INDEX port)
 {
-   return (*(volatile uint32_t *)(&PORTA + (port * 0x40)));
+   return (*(volatile uint32_t *)(&PORTA + ((uint32_t)port * 0x40U)));
 }
 
 /*============================================================================
@@ -150,7 +150,7 @@ CLASSB_TEST_STATUS CLASSB_RST_IOTest(CLASSB_PORT_INDEX port, CLASSB_GPIO_PIN pin
     {
         sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_RST, CLASSB_TEST_IO,
                 CLASSB_TEST_INPROGRESS);
-        if ((sCLASSB_GPIO_PortRead(port) & (1 << pin)) == (1 << pin))
+        if ((sCLASSB_GPIO_PortRead(port) & ((uint32_t)1U << pin)) == (((uint32_t)1U << pin)))
         {
             pin_read_state = PORT_PIN_HIGH;
         }

@@ -76,7 +76,7 @@ CLASSB_TEST_STATUS CLASSB_CPU_RegistersTest(bool running_context)
     }
     
     ret = sCLASSB_CPURegistersTest();
-    if (ret == CLASSB_TEST_PASSED)
+    if ((CLASSB_TEST_STATUS)ret == CLASSB_TEST_PASSED)
     {
         if (running_context == true)
         {

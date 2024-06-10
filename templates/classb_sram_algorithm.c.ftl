@@ -72,9 +72,9 @@ bool sCLASSB_ReadZeroWriteOne(uint32_t * ptr)
     bool return_val = true;
     uint32_t mask = 1;
 
-    for (bit_pos = CLASSB_SRAM_MARCH_BIT_WIDTH - 1; bit_pos >= 1; bit_pos--)
+    for (bit_pos = CLASSB_SRAM_MARCH_BIT_WIDTH - 1U; bit_pos >= 1U; bit_pos--)
     {
-        ram_data =(((*ptr) >> bit_pos) & 1);
+        ram_data =(((*ptr) >> bit_pos) & 1U);
         if (ram_data != 0U) 
         {
             return_val = false;
@@ -87,7 +87,7 @@ bool sCLASSB_ReadZeroWriteOne(uint32_t * ptr)
     
     if(return_val == true)
     {
-        ram_data =(((*ptr) >> bit_pos) & 1);
+        ram_data =(((*ptr) >> bit_pos) & 1U);
         if (ram_data != 0U) 
         {
             return_val = false;
@@ -118,9 +118,9 @@ bool sCLASSB_ReadZeroWriteOneWriteZero(uint32_t * ptr)
     bool return_val = true;
     uint32_t mask = 1;
 
-    for (bit_pos = CLASSB_SRAM_MARCH_BIT_WIDTH - 1; bit_pos >= 1; bit_pos--)
+    for (bit_pos = CLASSB_SRAM_MARCH_BIT_WIDTH - 1U; bit_pos >= 1U; bit_pos--)
     {
-        ram_data =(((*ptr) >> bit_pos) & 1);
+        ram_data =(((*ptr) >> bit_pos) & 1U);
         if (ram_data != 0U) 
         {
             return_val = false;
@@ -136,7 +136,7 @@ bool sCLASSB_ReadZeroWriteOneWriteZero(uint32_t * ptr)
     
     if(return_val == true)
     {
-        ram_data =(((*ptr) >> bit_pos) & 1);   
+        ram_data =(((*ptr) >> bit_pos) & 1U);   
         if (ram_data != 0U) 
         {
             return_val = false;
@@ -166,13 +166,13 @@ Notes  : This function is used by SRAM tests.
 bool sCLASSB_ReadOneWriteZero(uint32_t * ptr) 
 {
     uint32_t ram_data = 0U;
-    int8_t bit_pos = 0;
+    uint8_t bit_pos = 0;
     bool return_val = true;
     uint32_t mask = 1;
 
     for (bit_pos = 0; bit_pos < CLASSB_SRAM_MARCH_BIT_WIDTH; bit_pos++)
     {
-        ram_data = (((*ptr) >> bit_pos) & 1);
+        ram_data = (((*ptr) >> bit_pos) & 1U);
         if (ram_data != 1U) 
         {
             return_val = false;
@@ -200,13 +200,13 @@ Notes  : This function is used by SRAM tests.
 bool sCLASSB_ReadOneWriteZeroWriteOne(uint32_t * ptr) 
 {
     uint32_t ram_data = 0U;
-    int8_t bit_pos = 0;
+    uint8_t bit_pos = 0;
     bool return_val = true;
     uint32_t mask = 1;
     
     for (bit_pos = 0; bit_pos < CLASSB_SRAM_MARCH_BIT_WIDTH; bit_pos++)
     {
-        ram_data = (((*ptr) >> bit_pos) & 1);
+        ram_data = (((*ptr) >> bit_pos) & 1U);
         if (ram_data != 1U) 
         {
             return_val = false;
@@ -236,7 +236,7 @@ Notes  : This function is used by SRAM tests.
 bool sCLASSB_WriteOneWriteZero(uint32_t * ptr) 
 {
     uint32_t ram_data = 0U;
-    int8_t bit_pos = 0;
+    uint8_t bit_pos = 0;
     bool return_val = true;
     uint32_t mask = 1;
 
@@ -265,12 +265,12 @@ Notes  : This function is used by SRAM tests.
 bool sCLASSB_ReadZero(uint32_t * ptr) 
 {
     uint32_t ram_data = 0U;
-    int8_t bit_pos = 0;
+    uint8_t bit_pos = 0;
     bool return_val = true;
 
     for (bit_pos = 0; bit_pos < CLASSB_SRAM_MARCH_BIT_WIDTH; bit_pos++)
     {
-        ram_data = (((*ptr) >> bit_pos) & 1);
+        ram_data = (((*ptr) >> bit_pos) & 1U);
         if (ram_data != 0U) 
         {
             return_val = false;
@@ -302,13 +302,13 @@ bool CLASSB_RAMMarchC(uint32_t * start_addr, uint32_t test_size_bytes)
 {
     bool sram_march_c_result = true;
     uint32_t i = 0;
-    uint32_t test_size_words = (uint32_t) (test_size_bytes / 4);
+    uint32_t test_size_words = (uint32_t) (test_size_bytes / 4U);
 
     /* Test size is limited to CLASSB_SRAM_TEST_BUFFER_SIZE,
      * start_addr need to be word aligned
      */
     if ((test_size_bytes > CLASSB_SRAM_TEST_BUFFER_SIZE)
-            || (((uint32_t)start_addr % 4) != 0U) || (test_size_words == 0))
+            || (((uint32_t)start_addr % 4U) != 0U) || (test_size_words == 0U))
     {
         sram_march_c_result = false;
     }
@@ -358,7 +358,7 @@ bool CLASSB_RAMMarchC(uint32_t * start_addr, uint32_t test_size_bytes)
     if (sram_march_c_result == true)
     {
         // High to low, read zero, write one
-        for (i = (test_size_words - 1); i >= 1 ; i--)
+        for (i = (test_size_words - 1U); i >= 1U ; i--)
         {
             sram_march_c_result =  sCLASSB_ReadZeroWriteOne(start_addr + i);
             if (sram_march_c_result == false)
@@ -375,7 +375,7 @@ bool CLASSB_RAMMarchC(uint32_t * start_addr, uint32_t test_size_bytes)
     if (sram_march_c_result == true)
     {
         // High to low, read one, write zero
-        for (i = (test_size_words - 1); i >= 1 ; i--)
+        for (i = (test_size_words - 1U); i >= 1U ; i--)
         {
             sram_march_c_result =  sCLASSB_ReadOneWriteZero(start_addr + i); 
             if (sram_march_c_result == false)
@@ -392,7 +392,7 @@ bool CLASSB_RAMMarchC(uint32_t * start_addr, uint32_t test_size_bytes)
     if (sram_march_c_result == true)
     {
         // High to low, read zero
-        for (i = (test_size_words - 1); i >= 1 ; i--)
+        for (i = (test_size_words - 1U); i >= 1U ; i--)
         {
             sram_march_c_result =  sCLASSB_ReadZero(start_addr + i);
             if (sram_march_c_result == false)
@@ -429,13 +429,13 @@ bool CLASSB_RAMMarchCMinus(uint32_t * start_addr, uint32_t test_size_bytes)
 {
     bool sram_march_c_result = true;
     uint32_t i = 0;
-    uint32_t test_size_words = (uint32_t) (test_size_bytes / 4);
+    uint32_t test_size_words = (uint32_t) (test_size_bytes / 4U);
 
     /* Test size is limited to CLASSB_SRAM_TEST_BUFFER_SIZE,
      * start_addr need to be word aligned
      */
     if ((test_size_bytes > CLASSB_SRAM_TEST_BUFFER_SIZE)
-            || (((uint32_t)start_addr % 4) != 0U) || (test_size_words == 0))
+            || (((uint32_t)start_addr % 4U) != 0U) || (test_size_words == 0U))
     {
         sram_march_c_result = false;
     }
@@ -475,7 +475,7 @@ bool CLASSB_RAMMarchCMinus(uint32_t * start_addr, uint32_t test_size_bytes)
     if (sram_march_c_result == true)
     {
         // High to low, read zero, write one
-        for (i = (test_size_words - 1); i >= 1 ; i--)
+        for (i = (test_size_words - 1U); i >= 1U ; i--)
         {
             sram_march_c_result =  sCLASSB_ReadZeroWriteOne(start_addr + i); 
             if (sram_march_c_result == false)
@@ -495,7 +495,7 @@ bool CLASSB_RAMMarchCMinus(uint32_t * start_addr, uint32_t test_size_bytes)
     if (sram_march_c_result == true)
     {
         // High to low, read one, write zero
-        for (i = (test_size_words - 1); i >= 1 ; i--)
+        for (i = (test_size_words - 1U); i >= 1U ; i--)
         {
             sram_march_c_result =  sCLASSB_ReadOneWriteZero(start_addr + i);
             if (sram_march_c_result == false)
@@ -512,7 +512,7 @@ bool CLASSB_RAMMarchCMinus(uint32_t * start_addr, uint32_t test_size_bytes)
     if (sram_march_c_result == true)
     {
         // High to low, read zero
-        for (i = (test_size_words - 1); i >= 1 ; i--)
+        for (i = (test_size_words - 1U); i >= 1U ; i--)
         {
             sram_march_c_result =  sCLASSB_ReadZero(start_addr + i); 
             if (sram_march_c_result == false)
@@ -550,13 +550,13 @@ bool CLASSB_RAMMarchB(uint32_t * start_addr, uint32_t test_size_bytes)
 {
     bool sram_march_c_result = true;
     uint32_t i = 0;
-    uint32_t test_size_words = (uint32_t) (test_size_bytes / 4);
+    uint32_t test_size_words = (uint32_t) (test_size_bytes / 4U);
 
     /* Test size is limited to CLASSB_SRAM_TEST_BUFFER_SIZE,
      * start_addr need to be word aligned
      */
     if ((test_size_bytes > CLASSB_SRAM_TEST_BUFFER_SIZE)
-            || (((uint32_t)start_addr % 4) != 0U) || (test_size_words == 0))
+            || (((uint32_t)start_addr % 4U) != 0U) || (test_size_words == 0U))
     {
         sram_march_c_result = false;
     }
@@ -610,7 +610,7 @@ bool CLASSB_RAMMarchB(uint32_t * start_addr, uint32_t test_size_bytes)
     // High to low tests
     if (sram_march_c_result == true)
     {
-        for (i = (test_size_words - 1); i >= 1 ; i--)
+        for (i = (test_size_words - 1U); i >= 1U ; i--)
         {
             //High to low, read one, write zero
             sram_march_c_result =  sCLASSB_ReadOneWriteZero(start_addr + i); 
@@ -641,7 +641,7 @@ bool CLASSB_RAMMarchB(uint32_t * start_addr, uint32_t test_size_bytes)
     if (sram_march_c_result == true)
     {
         // High to low, read zero, write one, write zero
-        for (i = (test_size_words - 1); i >= 1 ; i--)
+        for (i = (test_size_words - 1U); i >= 1U ; i--)
         {
             sram_march_c_result =  sCLASSB_ReadZeroWriteOneWriteZero(start_addr + i);
             if (sram_march_c_result == false)

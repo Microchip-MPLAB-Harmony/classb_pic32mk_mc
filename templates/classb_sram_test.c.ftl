@@ -74,7 +74,7 @@ Notes  : This function is used by SRAM tests. Optimization is set to zero, else 
 static void OPTIMIZE_O0 sCLASSB_MemCopy(uint32_t* dest, uint32_t* src, uint32_t size_in_bytes)
 {
     uint32_t i = 0u;
-    uint32_t size_in_words = (uint32_t) (size_in_bytes / 4);
+    uint32_t size_in_words = (uint32_t) (size_in_bytes / 4U);
 
     for (i = 0; i < size_in_words; i++)
     {
@@ -104,11 +104,11 @@ CLASSB_TEST_STATUS sCLASSB_SRAM_MarchTest(uint32_t * start_addr,
     // If the size is not a multiple of 512, then check the remaining area
     volatile uint32_t march_c_short_itr_size = (uint32_t) (test_size_bytes % CLASSB_SRAM_TEST_BUFFER_SIZE);
     // Variable for loops
-    int32_t i = 0;
+    uint32_t i = 0;
     uint32_t * iteration_start_addr = NULL;
     uint32_t itr_start_addr = 0U;
 
-    for (i = 0; i < march_c_iterations; i++)
+    for (i = 0U; i < march_c_iterations; i++)
     {
         itr_start_addr = (uint32_t) mem_start_address + (i * CLASSB_SRAM_TEST_BUFFER_SIZE);
         iteration_start_addr = (uint32_t *) itr_start_addr;
@@ -153,7 +153,7 @@ CLASSB_TEST_STATUS sCLASSB_SRAM_MarchTest(uint32_t * start_addr,
     }
 
     // If the tested area is not a multiple of 512 bytes
-    if ((march_c_short_itr_size > 0) && (march_test_retval == true))
+    if ((march_c_short_itr_size > 0U) && (march_test_retval == true))
     {
         iteration_start_addr = (uint32_t *)(mem_start_address + (march_c_iterations * CLASSB_SRAM_TEST_BUFFER_SIZE));
         sCLASSB_MemCopy((uint32_t *)CLASSB_SRAM_BUFF_START_ADDRESS,
@@ -241,8 +241,8 @@ CLASSB_TEST_STATUS CLASSB_SRAM_MarchTestInit(uint32_t * start_addr,
      * The tested area should be above the reserved SRAM for Class B library
      * Address should be within the last SRAM word address.
      */
-    if ((((uint32_t)start_addr % 4) != 0U)
-            || ((test_size_bytes % 4) != 0U)
+    if ((((uint32_t)start_addr % 4U) != 0U)
+            || ((test_size_bytes % 4U) != 0U)
             || (march_test_end_address > CLASSB_SRAM_FINAL_WORD_ADDRESS)
             || (mem_start_address < CLASSB_SRAM_APP_AREA_START))
     {
