@@ -337,7 +337,7 @@ static void sCLASSB_TMR2_Initialize(void)
     TMR2 = 0x0;
 
     /*Set period */
-    PR2 = 3905U; // 10 Ms
+    PR2 = 2342U; // 10 Ms
 
     /* Enable TMR Interrupt */
     IEC0SET = _IEC0_T2IE_MASK;
@@ -439,7 +439,7 @@ CLASSB_TEST_STATUS CLASSB_SST_InterruptTest(void)
     /* Enable global interrupts */
     (void) __builtin_enable_interrupts();
     /*Set period for 100 ms*/
-    sCLASSB_INT_TMR1_Period_Set(39061U);
+    sCLASSB_INT_TMR1_Period_Set(23436U);
     sCLASSB_INT_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_1);
     while(sCLASSB_INT_EVIC_SourceStatusGet(CLASSB_INT_SOURCE_TIMER_1))
     {
