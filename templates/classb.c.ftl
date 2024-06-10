@@ -412,6 +412,8 @@ static CLASSB_STARTUP_STATUS sCLASSB_Startup_Tests(void)
          (CLASSB_FLASH_CRC_CONF?? && CLASSB_FLASH_CRC_CONF == true) ||
          (CLASSB_CLOCK_TEST_OPT?? && CLASSB_CLOCK_TEST_OPT == true) ||
          (CLASSB_INTERRUPT_TEST_OPT?? && CLASSB_INTERRUPT_TEST_OPT == true)>
+          <#lt>    CLASSB_STARTUP_STATUS cb_temp_startup_status = CLASSB_STARTUP_TEST_NOT_EXECUTED;
+          <#lt>    CLASSB_TEST_STATUS cb_test_status = CLASSB_TEST_NOT_EXECUTED;
     </#if>
     <#if CLASSB_CLOCK_TEST_OPT??>
         <#if CLASSB_CLOCK_TEST_OPT == true>
@@ -420,8 +422,7 @@ static CLASSB_STARTUP_STATUS sCLASSB_Startup_Tests(void)
             </#if>
         </#if>
     </#if>
-    CLASSB_STARTUP_STATUS cb_temp_startup_status = CLASSB_STARTUP_TEST_NOT_EXECUTED;
-    CLASSB_TEST_STATUS cb_test_status = CLASSB_TEST_NOT_EXECUTED;
+
     //Enable watchdog if it is not enabled via fuses
     if ( DEVCFG1bits.FWDTEN == 0 )
     {
@@ -432,6 +433,7 @@ static CLASSB_STARTUP_STATUS sCLASSB_Startup_Tests(void)
     }
     // Update the flag before running any self-test
     *classb_test_in_progress = (uint8_t)CLASSB_TEST_STARTED;	
+    sCLASSB_WDT_Clear();
     
     <#if CLASSB_CPU_TEST_OPT?? && CLASSB_CPU_TEST_OPT == true>
         <#lt>    // Test processor core registers
