@@ -422,7 +422,8 @@ Notes  : None.
 CLASSB_TEST_STATUS CLASSB_SST_InterruptTest(void)
 {
     
-    CLASSB_TEST_STATUS intr_test_status = CLASSB_TEST_NOT_EXECUTED;
+    CLASSB_TEST_STATUS intr_test_status = CLASSB_TEST_INPROGRESS;
+    uint32_t interrupt_count_l = 0U;
     sCLASSB_INT_EVIC_SourceStatusClear(INT_SOURCE_TIMER_1); 
     // Reset the counter
     *interrupt_count = 0U;
@@ -450,36 +451,24 @@ CLASSB_TEST_STATUS CLASSB_SST_InterruptTest(void)
     {
         ;
     }
-    sCLASSB_INT_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_1);    
-    sCLASSB_INT_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_2);   
+    sCLASSB_INT_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_1);
+    sCLASSB_INT_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_2);
     sCLASSB_INT_TMR2_Stop();
     sCLASSB_INT_TMR1_Stop();
-    
-    if ((*interrupt_count < CLASSB_INTR_MAX_INT_COUNT) )
+    /* Assign value to interrupt_count_l local variable and validate*/
+    interrupt_count_l = *interrupt_count;
+    if ((interrupt_count_l < CLASSB_INTR_MAX_INT_COUNT)
+		&&  (interrupt_count_l > 0U))
     {
-        if (*interrupt_count > 0U)
-        {
-            T1CONCLR = _T1CON_ON_MASK;// stop timer1
-            intr_test_status = CLASSB_TEST_PASSED;
-        }
-        else
-        {
-            intr_test_status = CLASSB_TEST_FAILED; 
-        }
-    }
-    else
-    {
-        intr_test_status = CLASSB_TEST_FAILED; 
-    }
-
-    if(intr_test_status == CLASSB_TEST_PASSED)
-    {
+        T1CONCLR = _T1CON_ON_MASK;// stop timer1
+        intr_test_status = CLASSB_TEST_PASSED;
         sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_SST, CLASSB_TEST_INTERRUPT,
             CLASSB_TEST_PASSED);
         sCLASSB_set_ebase_org(((uint32_t)ebase_org));
     }
     else
     {
+        intr_test_status = CLASSB_TEST_FAILED;
         sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_SST, CLASSB_TEST_INTERRUPT,
             CLASSB_TEST_FAILED);
         sCLASSB_set_ebase_org(((uint32_t)ebase_org));
