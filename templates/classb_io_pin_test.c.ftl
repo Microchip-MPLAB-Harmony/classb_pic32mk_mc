@@ -174,10 +174,15 @@ CLASSB_TEST_STATUS CLASSB_RST_IOTest(CLASSB_PORT_INDEX port, CLASSB_GPIO_PIN pin
         sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_RST, CLASSB_TEST_IO,
                 CLASSB_TEST_PASSED);
     }
-    else
+    else if(io_test_status == CLASSB_TEST_FAILED)
     {
         sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_RST, CLASSB_TEST_IO,
                 CLASSB_TEST_FAILED);
+    }
+    else
+    {
+        /* Do nothing */
+        ;
     }
 
     return io_test_status;
