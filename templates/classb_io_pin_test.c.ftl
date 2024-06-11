@@ -51,12 +51,7 @@
 /*----------------------------------------------------------------------------
  *     Global Variables
  *----------------------------------------------------------------------------*/
-/* Available GPIO Port and Pin List */ 
-<#lt>static CLASSB_PORT_INDEX CLASSB_PORT_LIST[] = 
-{
-    ${.vars["CLASSB_GPIO_CHANNEL_LIST"]}
-};
-
+/* Available GPIO Port and Pin List */
 <#list 0..CLASSB_GPIO_CHANNEL_TOTAL-1 as k>
     <#assign pin_channel = "CLASSB_GPIO_CHANNEL_" + k + "_NAME">
     <#assign port_pin_list = "CLASSB_GPIO_CHANNEL_" + k + "_PIN_LIST">
@@ -81,24 +76,9 @@ Notes  : Give a valid Macro value
 ============================================================================*/
 bool sCLASSB_GPIO_Validate_PortPin(CLASSB_PORT_INDEX port, CLASSB_GPIO_PIN pin)
 {
-    bool port_found = false, pin_found = false;
-    uint32_t i = 0, port_cnt = 0, pin_cnt = 0;
+    bool pin_found = false;
+    uint32_t i = 0, pin_cnt = 0;
 
-    /* GPIO Port validation */
-    port_cnt = sizeof (CLASSB_PORT_LIST) / sizeof (CLASSB_PORT_LIST[0]);
-    port_found = false;
-    for (i = 0; i < port_cnt; i++) 
-    {
-        if (port == CLASSB_PORT_LIST[i]) 
-        {
-            port_found = true;
-            break;
-        }
-    }
-    if (port_found == false)
-    {
-        return false;
-    }
     /* GPIO Pin validation */ 
     switch (port) 
     {
@@ -120,6 +100,7 @@ bool sCLASSB_GPIO_Validate_PortPin(CLASSB_PORT_INDEX port, CLASSB_GPIO_PIN pin)
 
     </#list>
         default:
+            /* Invalid Port */
             pin_found = false;
             break;
 
