@@ -428,7 +428,7 @@ static CLASSB_STARTUP_STATUS sCLASSB_Startup_Tests(void)
     {
         if(WDTCONbits.ON == 0)
         {
-    	   WDTCONbits.ON = 1;
+            WDTCONbits.ON = 1;
         }
     }
     // Update the flag before running any self-test
