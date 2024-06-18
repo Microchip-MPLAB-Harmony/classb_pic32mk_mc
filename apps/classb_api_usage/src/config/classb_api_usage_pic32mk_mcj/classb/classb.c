@@ -46,7 +46,7 @@
 
 /*----------------------------------------------------------------------------
  *     Constants
- *----------------------------------------------------------------------------*/
+ *----------------------------------------------------------------------------*/ 
 #define FLASH_START_ADDR 		            (0xBD000000U)
 #define FLASH_SIZE       		            (0x80000U)
 #define SRAM_RESERVED_START_ADDRESS         (0xa0000400U)
@@ -115,7 +115,7 @@ static void sCLASSB_SystemReset(void)
     
     RSWRSTSET = _RSWRST_SWRST_MASK;
     RSWRST;
-
+    
     Nop();
     Nop();
     Nop();
@@ -135,12 +135,11 @@ static void sCLASSB_WDT_Clear( void )
     /* Writing specific value to only upper 16 bits of WDTCON register clears WDT counter */
     /* Only write to the upper 16 bits of the register when clearing. */
     /* WDTCLRKEY = 0x5743 */
-    volatile uint16_t * wdtclrkey = ( (volatile uint16_t *)&WDTCON ) + 1;
-    *wdtclrkey = 0x5743;
+    WDTCONbits.WDTCLRKEY = 0x5743;
 }
 
 /*============================================================================
-void CLASSB_SelfTest_FailSafe(CLASSB_TEST_ID test_id)
+void CLASSB_SelfTest_FailSafe(CLASSB_TEST_ID test_id) 
 ------------------------------------------------------------------------------
 Purpose: Called if a non-critical self-test is failed.
 Input  : The ID of the failed test.
@@ -189,7 +188,7 @@ static void sCLASSB_GlobalsInit(void)
 }
 
 /*============================================================================
-static void sCLASSB_App_WDT_Recovery(void)
+static void sCLASSB_App_WDT_Recovery(void) 
 ------------------------------------------------------------------------------
 Purpose: Called if a WDT reset is caused by the application
 Input  : None
@@ -240,9 +239,9 @@ static void sCLASSB_TestWDT(void)
 {
     /* This persistent flag is checked after reset */
     *wdt_test_in_progress = (uint8_t)CLASSB_TEST_STARTED;
-
+    
     /* If WDT ALWAYSON is set, wait till WDT resets the device */
-    if (DEVCFG1bits.FWDTEN == 1) 
+    if (DEVCFG1bits.FWDTEN == 1U) 
     {
         // Infinite loop
         while (true) 
@@ -253,7 +252,7 @@ static void sCLASSB_TestWDT(void)
     else 
     {
         // If WDT is not enabled, enable WDT and wait
-        if (WDTCONbits.ON == 0) 
+        if (WDTCONbits.ON == 0U) 
         {
             WDTCONbits.ON = 1;
             // Infinite loop
@@ -283,16 +282,16 @@ Notes  : This function is executed to know the sytem reset reason.
 ============================================================================*/
 static RESET_REASON sCLASSB_SYS_RESET_ReasonGet(void) 
 {
-    uint32_t reset_reason = RCON & (_RCON_CMR_MASK | _RCON_EXTR_MASK |
-            _RCON_SWR_MASK | _RCON_DMTO_MASK | _RCON_WDTO_MASK |
-            _RCON_BOR_MASK | _RCON_POR_MASK | _RCON_VBPOR_MASK |
-            _RCON_VBAT_MASK | _RCON_PORIO_MASK | _RCON_PORCORE_MASK);
+    uint32_t reset_reason = RCON & ((uint32_t)_RCON_CMR_MASK | (uint32_t)_RCON_EXTR_MASK |
+            (uint32_t)_RCON_SWR_MASK | (uint32_t)_RCON_DMTO_MASK | (uint32_t)_RCON_WDTO_MASK |
+            (uint32_t)_RCON_BOR_MASK | (uint32_t)_RCON_POR_MASK | (uint32_t)_RCON_VBPOR_MASK |
+            (uint32_t)_RCON_VBAT_MASK | (uint32_t)_RCON_PORIO_MASK | (uint32_t)_RCON_PORCORE_MASK);
     
     return  (RESET_REASON)(reset_reason);
 }
 
 /*============================================================================
-static void sCLASSB_SYS_RESET_ReasonClear(RESET_REASON reason)
+static void sCLASSB_SYS_RESET_ReasonClear(RESET_REASON reason) 
 ------------------------------------------------------------------------------
 Purpose: To clear RCON register.
 Input  : None
@@ -305,7 +304,7 @@ static void sCLASSB_SYS_RESET_ReasonClear(RESET_REASON reason)
 }
 
 /*============================================================================
-static CLASSB_INIT_STATUS sCLASSB_Init(void)
+static CLASSB_INIT_STATUS sCLASSB_Init(void) 
 ------------------------------------------------------------------------------
 Purpose: To check reset cause and decide the startup flow.
 Input  : None
@@ -330,13 +329,13 @@ static CLASSB_INIT_STATUS sCLASSB_Init(void)
     sCLASSB_SYS_RESET_ReasonClear(RESET_REASON_ALL);
     
     /*Check if reset was triggered by WDT */
-    if ((resetReason & RESET_REASON_WDT_TIMEOUT) == RESET_REASON_WDT_TIMEOUT) 
+    if (((uint32_t)resetReason & (uint32_t)RESET_REASON_WDT_TIMEOUT) == (uint32_t)RESET_REASON_WDT_TIMEOUT) 
     {
-        if (*wdt_test_in_progress == CLASSB_TEST_STARTED) 
+        if (*wdt_test_in_progress == (uint32_t)CLASSB_TEST_STARTED) 
         {
             *wdt_test_in_progress = (uint8_t)CLASSB_TEST_NOT_STARTED;
         } 
-        else if (*classb_test_in_progress == CLASSB_TEST_STARTED) 
+        else if (*classb_test_in_progress == (uint32_t)CLASSB_TEST_STARTED) 
         {
             sCLASSB_SST_WDT_Recovery();
         } 
@@ -348,8 +347,8 @@ static CLASSB_INIT_STATUS sCLASSB_Init(void)
     else 
     {
         /* If it is a software reset and the Class B library has issued it */
-        if ((*classb_test_in_progress == CLASSB_TEST_STARTED) &&
-                ((resetReason & RESET_REASON_SOFTWARE) == RESET_REASON_SOFTWARE)) 
+        if ((*classb_test_in_progress == (uint32_t)CLASSB_TEST_STARTED) &&
+                (((uint32_t)resetReason & (uint32_t)RESET_REASON_SOFTWARE) == (uint32_t)RESET_REASON_SOFTWARE)) 
         {
             *classb_test_in_progress = (uint8_t)CLASSB_TEST_NOT_STARTED;
             ret_val = CLASSB_SST_DONE;
@@ -389,7 +388,7 @@ static CLASSB_INIT_STATUS sCLASSB_Init(void)
 }
 
 /*============================================================================
-static CLASSB_STARTUP_STATUS sCLASSB_Startup_Tests(void)
+static CLASSB_STARTUP_STATUS sCLASSB_Startup_Tests(void) 
 ------------------------------------------------------------------------------
 Purpose: Call all startup self-tests.
 Input  : None
@@ -402,20 +401,22 @@ Notes  : This function calls all the configured self-tests during startup.
 static CLASSB_STARTUP_STATUS sCLASSB_Startup_Tests(void) 
 {
     CLASSB_STARTUP_STATUS cb_startup_status = CLASSB_STARTUP_TEST_NOT_EXECUTED;
-    uint16_t clock_test_tmr1_cycles = ((5 * CLASSB_CLOCK_TEST_RATIO_NS_MS) / CLASSB_CLOCK_TEST_TMR1_RATIO_NS);
     CLASSB_STARTUP_STATUS cb_temp_startup_status = CLASSB_STARTUP_TEST_NOT_EXECUTED;
     CLASSB_TEST_STATUS cb_test_status = CLASSB_TEST_NOT_EXECUTED;
+    uint16_t clock_test_tmr1_cycles = ((5U * CLASSB_CLOCK_TEST_RATIO_NS_MS) / CLASSB_CLOCK_TEST_TMR1_RATIO_NS);
+
     //Enable watchdog if it is not enabled via fuses
-    if ( DEVCFG1bits.FWDTEN == 0 )
+    if ( DEVCFG1bits.FWDTEN == 0U )
     {
-        if(WDTCONbits.ON == 0)
+        if(WDTCONbits.ON == 0U)
         {
-    	   WDTCONbits.ON = 1;
+            WDTCONbits.ON = 1;
         }
     }
     // Update the flag before running any self-test
     *classb_test_in_progress = (uint8_t)CLASSB_TEST_STARTED;	
-
+    sCLASSB_WDT_Clear();
+    
     // Test processor core registers
     *ongoing_sst_id = (uint8_t)CLASSB_TEST_CPU;
     cb_test_status = CLASSB_CPU_RegistersTest(false);
@@ -470,7 +471,7 @@ static CLASSB_STARTUP_STATUS sCLASSB_Startup_Tests(void)
     {
        /*do nothing*/
        ;
-    }
+    }   
     sCLASSB_WDT_Clear();
     
     //SRAM test
@@ -516,7 +517,7 @@ static CLASSB_STARTUP_STATUS sCLASSB_Startup_Tests(void)
         ;
     }
     sCLASSB_WDT_Clear();
-    
+      
     // Interrupt Test
     *ongoing_sst_id = (uint8_t)CLASSB_TEST_INTERRUPT;
     // Clear WDT before test
@@ -557,7 +558,9 @@ Input  : None
 Output : None
 Notes  : This function is called from Reset_Handler.
 ============================================================================*/
-void _on_bootstrap(void);/* Declaration required to avoid MISRA error */ 
+
+/* MISRA C-2012 Rule 21.2 violated 2 times below. Deviation record ID - MISRAC_2012_R_21_2_DR_01*/
+void _on_bootstrap(void);/* Declaration required to avoid MISRA error Rule 8.4 */ 
 
 void _on_bootstrap(void) 
 {
@@ -600,3 +603,4 @@ void _on_bootstrap(void)
         ;
     }
 }
+/* MISRAC 2012 deviation block end */

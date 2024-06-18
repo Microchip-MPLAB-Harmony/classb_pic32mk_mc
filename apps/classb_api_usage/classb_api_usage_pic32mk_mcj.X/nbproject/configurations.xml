@@ -818,6 +818,8 @@
                   value="${memories.instruction.ram.ranges}"/>
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="1d000000-1d07ffff"/>
+        <property key="programmerToGoFilePath"
+                  value="C:/Pranjal/ClassB/final_application/Reserve_SRAM_and_clock_fix/classb_api_usage/classb_api_usage_pic32mk_mcj.X/debug/classb_api_usage_pic32mk_mcj/classb_api_usage_pic32mk_mcj_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.pgmentry.voltage" value="low"/>

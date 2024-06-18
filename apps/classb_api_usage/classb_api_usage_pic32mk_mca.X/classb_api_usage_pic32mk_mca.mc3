@@ -503,7 +503,7 @@
         &lt;ElementPosition dnOrder=&quot;2&quot; id=&quot;dfp&quot; x=&quot;20&quot; y=&quot;20&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;3&quot; id=&quot;lib_classb_pic32mk_mc&quot; x=&quot;340&quot; y=&quot;20&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;4&quot; id=&quot;nvm&quot; x=&quot;560&quot; y=&quot;20&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;5&quot; id=&quot;stdio&quot; x=&quot;720&quot; y=&quot;20&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;5&quot; id=&quot;stdio&quot; x=&quot;447&quot; y=&quot;74&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;6&quot; id=&quot;uart2&quot; x=&quot;290&quot; y=&quot;60&quot;/&gt;
       &lt;/ElementPositions&gt;
     &lt;/ComponentGraph&gt;
@@ -2903,7 +2903,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb.c</file>
-         <hash>e6a1c855e82838503851c7399ce05d473064290c347553804474e650aad2da42</hash>
+         <hash>416c6a7806cfe75238fb516309b9379e3cf33573099e6469de4d321f54893fc3</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb.h</file>
@@ -2911,7 +2911,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_clock_test.c</file>
-         <hash>1ccd0aefc0b61189263d42a7f325a2497ca23b6925b5a6496dd0a9058459b29d</hash>
+         <hash>02fc73be705991e8ed0bc9e0f945cd64fb9c4c2b28da0db4c11e627db9e67657</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_clock_test.h</file>
@@ -2927,7 +2927,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_cpu_reg_test.c</file>
-         <hash>92819d6060319675384ff5cad1e5e5cf7c299380c2f6751e15f9f6273e31fbe9</hash>
+         <hash>5c00513c609db79aaa75700a44017404ea924a4c6f89e90fa9dc5fd733521d71</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_cpu_reg_test.h</file>
@@ -2939,7 +2939,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_flash_test.c</file>
-         <hash>d5bff8a9452b611bf773ad0aab0b2a673bba4da6affa5b8ecf1f7067863ae185</hash>
+         <hash>5e9c41ee74a132aab8d68e9ab6631ebd3a81560b9e6b15ec243f5be0f35e8acc</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_flash_test.h</file>
@@ -2947,7 +2947,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_fpu_reg_test.c</file>
-         <hash>9b143e23a637ed4bf639540f96728e041f544d5c59766ab0d9274d76a7f67449</hash>
+         <hash>5edf8f70267ca12e48d93bcda9df53924c849d774d93526c8e2627f485b579f0</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_fpu_reg_test.h</file>
@@ -2959,7 +2959,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_interrupt_test.c</file>
-         <hash>733c97097c5c9804929e0c73309a21c289165524d10af081083d300369938be9</hash>
+         <hash>98b5d36e1224443a6e427a67ba46e44cb49b4f88e069f7da23e56f6bd7e93654</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_interrupt_test.h</file>
@@ -2967,7 +2967,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_io_pin_test.c</file>
-         <hash>0b2a6555f4ed5678b84abada4fd3678a8336ae00a5e12fe18d1dd0fee93c0e29</hash>
+         <hash>abcce3075d800621b5be2b1c5b3cadad0b4847d531618c3346f6d4fa2f79a7e9</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_io_pin_test.h</file>
@@ -2987,7 +2987,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_sram_algorithm.c</file>
-         <hash>26ef40029279a43bfa7e0b1e428fdd5b02af636070d47966272d957c047ab56d</hash>
+         <hash>2d26524723decfd430152813da04adc95fd0802f9ebd521cea18015a2b2a33c7</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_sram_algorithm.h</file>
@@ -2995,7 +2995,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_sram_test.c</file>
-         <hash>0c8a8dc422a7c91af2710617fc93a43e8f5f40349d5b63e7a7abc06d0cf9d2dd</hash>
+         <hash>3607bfa0409e4d20cd24d5c9691ea25d27778881ef3826f9a22728d9d8b11a68</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mca\classb\classb_sram_test.h</file>

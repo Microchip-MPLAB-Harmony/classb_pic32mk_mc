@@ -51,18 +51,7 @@
 /*----------------------------------------------------------------------------
  *     Global Variables
  *----------------------------------------------------------------------------*/
-/* Available GPIO Port and Pin List */ 
-static CLASSB_PORT_INDEX CLASSB_PORT_LIST[] = 
-{
-    CLASSB_GPIO_PORT_A,
-    CLASSB_GPIO_PORT_B,
-    CLASSB_GPIO_PORT_C,
-    CLASSB_GPIO_PORT_D,
-    CLASSB_GPIO_PORT_E,
-    CLASSB_GPIO_PORT_F,
-    CLASSB_GPIO_PORT_G
-};
-
+/* Available GPIO Port and Pin List */
 static CLASSB_GPIO_PIN CLASSB_PORT_A_PIN_LIST[] = 
 {
     CLASSB_GPIO_PIN_RA0,
@@ -178,24 +167,9 @@ Notes  : Give a valid Macro value
 ============================================================================*/
 bool sCLASSB_GPIO_Validate_PortPin(CLASSB_PORT_INDEX port, CLASSB_GPIO_PIN pin)
 {
-    bool port_found = false, pin_found = false;
-    uint32_t i = 0, port_cnt = 0, pin_cnt = 0;
+    bool pin_found = false;
+    uint32_t i = 0, pin_cnt = 0;
 
-    /* GPIO Port validation */
-    port_cnt = sizeof (CLASSB_PORT_LIST) / sizeof (CLASSB_PORT_LIST[0]);
-    port_found = false;
-    for (i = 0; i < port_cnt; i++) 
-    {
-        if (port == CLASSB_PORT_LIST[i]) 
-        {
-            port_found = true;
-            break;
-        }
-    }
-    if (port_found == false)
-    {
-        return false;
-    }
     /* GPIO Pin validation */ 
     switch (port) 
     {
@@ -298,6 +272,7 @@ bool sCLASSB_GPIO_Validate_PortPin(CLASSB_PORT_INDEX port, CLASSB_GPIO_PIN pin)
             break;
 
         default:
+            /* Invalid Port */
             pin_found = false;
             break;
 
@@ -314,10 +289,13 @@ Input  : GPIO port.
 Output : None.
 Notes  : 
 ============================================================================*/
+
+/* MISRA C-2012 Rule 18.1 violated 1 time below. Deviation record ID - MISRAC_2012_R_18_1_DR_1*/
 uint32_t sCLASSB_GPIO_PortRead(CLASSB_PORT_INDEX port)
 {
-   return (*(volatile uint32_t *)(&PORTA + (port * 0x40)));
+    return (*(volatile uint32_t *)(&PORTA + ((uint32_t)port * 0x40U)));
 }
+/* MISRAC 2012 deviation block end */
 
 /*============================================================================
 CLASSB_TEST_STATUS CLASSB_RST_IOTest(CLASSB_PORT_INDEX port, CLASSB_GPIO_PIN pin,
@@ -347,7 +325,7 @@ CLASSB_TEST_STATUS CLASSB_RST_IOTest(CLASSB_PORT_INDEX port, CLASSB_GPIO_PIN pin
     {
         sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_RST, CLASSB_TEST_IO,
                 CLASSB_TEST_INPROGRESS);
-        if ((sCLASSB_GPIO_PortRead(port) & (1 << pin)) == (1 << pin))
+        if ((sCLASSB_GPIO_PortRead(port) & ((uint32_t)1U << pin)) == (((uint32_t)1U << pin)))
         {
             pin_read_state = PORT_PIN_HIGH;
         }
@@ -371,10 +349,15 @@ CLASSB_TEST_STATUS CLASSB_RST_IOTest(CLASSB_PORT_INDEX port, CLASSB_GPIO_PIN pin
         sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_RST, CLASSB_TEST_IO,
                 CLASSB_TEST_PASSED);
     }
-    else
+    else if(io_test_status == CLASSB_TEST_FAILED)
     {
         sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_RST, CLASSB_TEST_IO,
                 CLASSB_TEST_FAILED);
+    }
+    else
+    {
+        /* Do nothing */
+        ;
     }
 
     return io_test_status;

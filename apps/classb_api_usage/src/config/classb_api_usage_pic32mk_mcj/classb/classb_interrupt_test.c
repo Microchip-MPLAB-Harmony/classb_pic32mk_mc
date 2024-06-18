@@ -48,7 +48,6 @@
  *     Constants
  *----------------------------------------------------------------------------*/
 
-#define CORE_TIMER_FREQ                     60000000
 #define CLASSB_INTR_MAX_INT_COUNT           (15U)
 #define sCLASSB_enable_interrupt_asm()      __asm__ volatile ("ehb");
 #define sCLASSB_disable_interrupt_asm()     __asm__ volatile ("di");
@@ -104,13 +103,13 @@ static void sCLASSB_set_ebase(unsigned int value)
     _CP0_SET_STATUS(temp_CP0);// Update Status
     sCLASSB_enable_interrupt_asm();
     
-    _CP0_SET_INTCTL(0x10 << 5);
+    _CP0_SET_INTCTL(0x10U << 5U);
     sCLASSB_enable_interrupt_asm();
     
     /****************Setting new ebase and offset *****************/
     _CP0_SET_EBASE(value);// Set an EBase value
     sCLASSB_enable_interrupt_asm();
-    OFF009 = 0x200;// setting new offset value
+    OFF009 = 0x200U;// setting new offset value
     /**********************************/
     
     temp_CP0 = _CP0_GET_CAUSE();// Get Cause 
@@ -140,7 +139,7 @@ static void sCLASSB_BuildVectorTable(void)
 {
     ebase_org = _CP0_GET_EBASE();
     off_org = OFF009;
-    sCLASSB_set_ebase( ((uint32_t)&sCLASSB_TMR2_Handler) - 0x200 );
+    sCLASSB_set_ebase( ((uint32_t)&sCLASSB_TMR2_Handler) - 0x200U );
 }
 
 /*============================================================================
@@ -169,7 +168,7 @@ static void sCLASSB_set_ebase_org(unsigned int value)
     _CP0_SET_STATUS(temp_CP0);// Update Status
     sCLASSB_enable_interrupt_asm();
     
-    _CP0_SET_INTCTL(0x10 << 5);
+    _CP0_SET_INTCTL(0x10U << 5U);
     sCLASSB_enable_interrupt_asm();
     
     /****************Setting new ebase and offset *****************/
@@ -230,8 +229,7 @@ Notes  : None.
 ============================================================================*/
 static bool sCLASSB_INT_EVIC_SourceStatusGet( CLASSB_INT_SOURCE source )
 {
-    volatile uint32_t *IFSx = (volatile uint32_t *)(&IFS0 + ((0x10 * (source / 32)) / 4));
-    return (bool)((*IFSx >> (source & (uint32_t)0x1f)) & (uint32_t)0x1);
+    return (((IFS0 >> (uint32_t)source) & 0x1U) != 0U);
 }
 
 /*============================================================================
@@ -244,9 +242,7 @@ Notes  : None.
 ============================================================================*/
 static void sCLASSB_INT_EVIC_SourceStatusClear( CLASSB_INT_SOURCE source )
 {
-    volatile uint32_t *IFSx = (volatile uint32_t *) (&IFS0 + ((0x10U * (source / 32U)) / 4U));
-    volatile uint32_t *IFSxCLR = (volatile uint32_t *)(IFSx + 1U);
-    *IFSxCLR = (uint32_t)1UL << (source & (uint32_t)0x1fU);
+    IFS0 &= ~(1UL << (uint32_t)source);
 }
 
 /*============================================================================
@@ -259,9 +255,7 @@ Notes  : None.
 ============================================================================*/
 static void sCLASSB_INT_EVIC_SourceEnable( CLASSB_INT_SOURCE source )
 {
-    volatile uint32_t *IECx = (volatile uint32_t *) (&IEC0 + ((0x10 * (source / 32)) / 4));
-    volatile uint32_t *IECxSET = (volatile uint32_t *)(IECx + 2);
-    *IECxSET = (uint32_t)1U << (source & (uint32_t)0x1fU);
+    IEC0 |= (1UL << (uint32_t)source);
 }
 
 /*============================================================================
@@ -307,7 +301,7 @@ static void sCLASSB_EVIC_Initialize( void )
 {
     INTCONSET = _INTCON_MVEC_MASK;
     /* Set up priority and subpriority of enabled interrupts */
-    IPC2SET = 0x400 | 0x0;  /* TIMER_2:  Priority 1 / Subpriority 0 */
+    IPC2SET = 0x400U | 0x0U;  /* TIMER_2:  Priority 1 / Subpriority 0 */
     /* Configure Shadow Register Set */
     PRISS = 0x76543210;
 }
@@ -337,7 +331,7 @@ static void sCLASSB_TMR2_Initialize(void)
     TMR2 = 0x0;
 
     /*Set period */
-    PR2 = 3905U; // 10 Ms
+    PR2 = 2342U; // 10 Ms
 
     /* Enable TMR Interrupt */
     IEC0SET = _IEC0_T2IE_MASK;
@@ -422,7 +416,8 @@ Notes  : None.
 CLASSB_TEST_STATUS CLASSB_SST_InterruptTest(void)
 {
     
-    CLASSB_TEST_STATUS intr_test_status = CLASSB_TEST_NOT_EXECUTED;
+    CLASSB_TEST_STATUS intr_test_status = CLASSB_TEST_INPROGRESS;
+    uint32_t interrupt_count_l = 0U;
     sCLASSB_INT_EVIC_SourceStatusClear(INT_SOURCE_TIMER_1); 
     // Reset the counter
     *interrupt_count = 0U;
@@ -438,7 +433,7 @@ CLASSB_TEST_STATUS CLASSB_SST_InterruptTest(void)
     /* Enable global interrupts */
     (void) __builtin_enable_interrupts();
     /*Set period for 100 ms*/
-    sCLASSB_INT_TMR1_Period_Set(39061U);
+    sCLASSB_INT_TMR1_Period_Set(23436U);
     sCLASSB_INT_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_1);
     while(sCLASSB_INT_EVIC_SourceStatusGet(CLASSB_INT_SOURCE_TIMER_1))
     {
@@ -450,36 +445,24 @@ CLASSB_TEST_STATUS CLASSB_SST_InterruptTest(void)
     {
         ;
     }
-    sCLASSB_INT_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_1);    
-    sCLASSB_INT_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_2);   
+    sCLASSB_INT_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_1);
+    sCLASSB_INT_EVIC_SourceStatusClear(CLASSB_INT_SOURCE_TIMER_2);
     sCLASSB_INT_TMR2_Stop();
     sCLASSB_INT_TMR1_Stop();
-    
-    if ((*interrupt_count < CLASSB_INTR_MAX_INT_COUNT) )
+    /* Assign value to interrupt_count_l local variable and validate*/
+    interrupt_count_l = *interrupt_count;
+    if ((interrupt_count_l < CLASSB_INTR_MAX_INT_COUNT)
+        &&  (interrupt_count_l > 0U))
     {
-        if (*interrupt_count > 0U)
-        {
-            T1CONCLR = _T1CON_ON_MASK;// stop timer1
-            intr_test_status = CLASSB_TEST_PASSED;
-        }
-        else
-        {
-            intr_test_status = CLASSB_TEST_FAILED; 
-        }
-    }
-    else
-    {
-        intr_test_status = CLASSB_TEST_FAILED; 
-    }
-
-    if(intr_test_status == CLASSB_TEST_PASSED)
-    {
+        T1CONCLR = _T1CON_ON_MASK;// stop timer1
+        intr_test_status = CLASSB_TEST_PASSED;
         sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_SST, CLASSB_TEST_INTERRUPT,
             CLASSB_TEST_PASSED);
         sCLASSB_set_ebase_org(((uint32_t)ebase_org));
     }
     else
     {
+        intr_test_status = CLASSB_TEST_FAILED;
         sCLASSB_UpdateTestResult(CLASSB_TEST_TYPE_SST, CLASSB_TEST_INTERRUPT,
             CLASSB_TEST_FAILED);
         sCLASSB_set_ebase_org(((uint32_t)ebase_org));

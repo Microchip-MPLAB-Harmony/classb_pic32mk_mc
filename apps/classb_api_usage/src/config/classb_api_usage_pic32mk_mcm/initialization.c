@@ -212,9 +212,9 @@ void SYS_Initialize ( void* data )
 	GPIO_Initialize();
 
 	BSP_Initialize();
-    NVM_Initialize();
-
 	UART6_Initialize();
+
+    NVM_Initialize();
 
 
 

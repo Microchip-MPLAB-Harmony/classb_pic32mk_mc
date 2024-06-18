@@ -54,8 +54,8 @@
 #include "peripheral/gpio/plib_gpio.h"
 #include "peripheral/evic/plib_evic.h"
 #include "classb/classb.h"
-#include "peripheral/nvm/plib_nvm.h"
 #include "peripheral/uart/plib_uart6.h"
+#include "peripheral/nvm/plib_nvm.h"
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility

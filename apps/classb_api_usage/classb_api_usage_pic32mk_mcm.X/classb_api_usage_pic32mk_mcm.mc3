@@ -4251,7 +4251,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb.c</file>
-         <hash>b035ebb47ba8ae6d3953c947f23de14a31646629a4ff1ffeea9b7e6698fdb352</hash>
+         <hash>0679b9a169bbe16c6cf483a628220854cfb3a5853589cb4dd7316f51457d283b</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb.h</file>
@@ -4259,7 +4259,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_clock_test.c</file>
-         <hash>1ccd0aefc0b61189263d42a7f325a2497ca23b6925b5a6496dd0a9058459b29d</hash>
+         <hash>02fc73be705991e8ed0bc9e0f945cd64fb9c4c2b28da0db4c11e627db9e67657</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_clock_test.h</file>
@@ -4275,7 +4275,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_cpu_reg_test.c</file>
-         <hash>92819d6060319675384ff5cad1e5e5cf7c299380c2f6751e15f9f6273e31fbe9</hash>
+         <hash>5c00513c609db79aaa75700a44017404ea924a4c6f89e90fa9dc5fd733521d71</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_cpu_reg_test.h</file>
@@ -4287,7 +4287,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_flash_test.c</file>
-         <hash>da276a4c98920c6f7745868e2d41a594892c6ef0225b3296212e1ee4076fb427</hash>
+         <hash>eb1e387aa71c43470232a4b6668f8761ce74a55ea2e45c1d798c6c272069f14d</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_flash_test.h</file>
@@ -4295,7 +4295,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_fpu_reg_test.c</file>
-         <hash>9b143e23a637ed4bf639540f96728e041f544d5c59766ab0d9274d76a7f67449</hash>
+         <hash>5edf8f70267ca12e48d93bcda9df53924c849d774d93526c8e2627f485b579f0</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_fpu_reg_test.h</file>
@@ -4307,7 +4307,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_interrupt_test.c</file>
-         <hash>733c97097c5c9804929e0c73309a21c289165524d10af081083d300369938be9</hash>
+         <hash>98b5d36e1224443a6e427a67ba46e44cb49b4f88e069f7da23e56f6bd7e93654</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_interrupt_test.h</file>
@@ -4315,7 +4315,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_io_pin_test.c</file>
-         <hash>7bcc8ece6b0f8f4cb77b5455b177c5473390b2a2a2110af43dfb958e62522d72</hash>
+         <hash>4e352df7c6a5d3dda0d09191a7f83ced2f65405228df1167b7759c92902d4e3f</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_io_pin_test.h</file>
@@ -4335,7 +4335,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_sram_algorithm.c</file>
-         <hash>26ef40029279a43bfa7e0b1e428fdd5b02af636070d47966272d957c047ab56d</hash>
+         <hash>2d26524723decfd430152813da04adc95fd0802f9ebd521cea18015a2b2a33c7</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_sram_algorithm.h</file>
@@ -4343,7 +4343,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_sram_test.c</file>
-         <hash>a2334e715334e0c77802207ce1c949e67105e4373e9f8b7101d132fc1af807f0</hash>
+         <hash>804bdb98fe85ebed0255fa043afb85b339b93f12f5279d88946c3571eab326ae</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\classb\classb_sram_test.h</file>
@@ -4351,7 +4351,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\definitions.h</file>
-         <hash>7f8ecda5f66f9ad7b064ec3966e4c4afb1d5e06eb88704f7a39eac7fdcf6025d</hash>
+         <hash>9644bc4fe7aefac751c9518f9d49c2fd3ba89e1fa487825bdc99a8d3c8e885f9</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\device.h</file>
@@ -4363,7 +4363,7 @@
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\initialization.c</file>
-         <hash>71cca3a8dece789abd0f4d9883ff0a7f4c0c28f96f09ab972d50c99442b16f4b</hash>
+         <hash>68242c4ed4ef1e170c523e6000231445bd9550296e50046733b54dfcb2c18a3a</hash>
       </entry>
       <entry>
          <file>..\src\config\classb_api_usage_pic32mk_mcm\interrupts.c</file>
