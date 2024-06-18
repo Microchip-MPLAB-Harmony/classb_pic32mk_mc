@@ -57,7 +57,10 @@
 /*----------------------------------------------------------------------------
  *     Global Variables
  *----------------------------------------------------------------------------*/
+ 
+/* MISRA C-2012 Rule 8.6 violated 1 time below. Deviation record ID - MISRAC_2012_R_8_6_DR_1*/
 register uint32_t stack_ptr_register asm("sp");  // Stack register variable.
+/* MISRAC 2012 deviation block end */
 
 /*----------------------------------------------------------------------------
  *     Functions

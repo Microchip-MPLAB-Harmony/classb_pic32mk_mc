@@ -140,7 +140,7 @@ static void sCLASSB_WDT_Clear( void )
     /* Writing specific value to only upper 16 bits of WDTCON register clears WDT counter */
     /* Only write to the upper 16 bits of the register when clearing. */
     /* WDTCLRKEY = 0x5743 */
-	WDTCONbits.WDTCLRKEY = 0x5743;
+    WDTCONbits.WDTCLRKEY = 0x5743;
 }
 
 /*============================================================================
@@ -629,6 +629,8 @@ Input  : None
 Output : None
 Notes  : This function is called from Reset_Handler.
 ============================================================================*/
+
+/* MISRA C-2012 Rule 21.2 violated 2 times below. Deviation record ID - MISRAC_2012_R_21_2_DR_01*/
 void _on_bootstrap(void);/* Declaration required to avoid MISRA error Rule 8.4 */ 
 
 void _on_bootstrap(void) 
@@ -672,3 +674,4 @@ void _on_bootstrap(void)
         ;
     }
 }
+/* MISRAC 2012 deviation block end */

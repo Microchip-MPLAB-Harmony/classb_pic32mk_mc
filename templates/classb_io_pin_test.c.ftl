@@ -117,10 +117,13 @@ Input  : GPIO port.
 Output : None.
 Notes  : 
 ============================================================================*/
+
+/* MISRA C-2012 Rule 18.1 violated 1 time below. Deviation record ID - MISRAC_2012_R_18_1_DR_1*/
 uint32_t sCLASSB_GPIO_PortRead(CLASSB_PORT_INDEX port)
 {
-   return (*(volatile uint32_t *)(&PORTA + ((uint32_t)port * 0x40U)));
+    return (*(volatile uint32_t *)(&PORTA + ((uint32_t)port * 0x40U)));
 }
+/* MISRAC 2012 deviation block end */
 
 /*============================================================================
 CLASSB_TEST_STATUS CLASSB_RST_IOTest(CLASSB_PORT_INDEX port, CLASSB_GPIO_PIN pin,
