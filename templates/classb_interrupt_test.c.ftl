@@ -458,7 +458,7 @@ CLASSB_TEST_STATUS CLASSB_SST_InterruptTest(void)
     /* Assign value to interrupt_count_l local variable and validate*/
     interrupt_count_l = *interrupt_count;
     if ((interrupt_count_l < CLASSB_INTR_MAX_INT_COUNT)
-		&&  (interrupt_count_l > 0U))
+        &&  (interrupt_count_l > 0U))
     {
         T1CONCLR = _T1CON_ON_MASK;// stop timer1
         intr_test_status = CLASSB_TEST_PASSED;
