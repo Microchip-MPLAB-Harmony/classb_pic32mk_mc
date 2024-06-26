@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Module name="replaceme" id="dbcf3a8a-f10e-4a1d-a712-d427c950332d" version="1.0.0">
+<Module name="Class B" id="dbcf3a8a-f10e-4a1d-a712-d427c950332d" version="1.0.0">
     <ConfigRoot path="config/module.py"/>
 </Module>
