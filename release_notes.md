@@ -10,7 +10,6 @@
 ### Known issues
 None.
 
-
 ### Development Tools
 
 * [MPLAB® X IDE v6.20](https://www.microchip.com/mplab/mplab-x-ide)
