@@ -4,7 +4,7 @@
 
 
 project: classb_api_usage
-creation_date: 2024-06-18T15:42:07.571+05:30[Asia/Calcutta]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
+creation_date: 2024-07-01T14:43:57.676+05:30[Asia/Calcutta]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
 operating_system: Windows 10
 mcc_mode: IDE            # [IDE|Standalone|Headless]
 mcc_version: v5.5.0
@@ -15,7 +15,7 @@ compiler: XC32 4.35
 
 modules:
     - {name: "csp", version: "v3.18.2"}
-    - {name: "classb_pic32mk_mc", version: "updated_demo_app"}
+    - {name: "classb_pic32mk_mc", version: "v1.0.0"}
     - {name: "bsp", version: "v3.18.0"}
 
 packs:
