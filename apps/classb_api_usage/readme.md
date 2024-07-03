@@ -1,9 +1,9 @@
 
-# PIC32MK MC Class B Libary API Usage Example
+# PIC32MK MC Class B Library API Usage Example
 
 This example shows how to use the self-test APIs from the Class B library during startup as well as run-time.
 The example contains 3 different Application configurations created for three different Hardware, please refer
-"Hardware Setup" secion below.
+"Hardware Setup" section below.
 
 When a self-test is used at startup, it is referred as Startup Self-test (SST) and when it is used at
 run-time, it is referred as run-time self-test (RST).
